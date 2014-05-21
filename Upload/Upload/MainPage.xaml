@@ -14,7 +14,7 @@
         <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
         <x:String x:Key="AppName">Upload Image</x:String>
         <Style x:Key="Blue" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="Blue"/>
+            <Setter Property="Foreground" Value="DarkKhaki"/>
             <Setter Property="FontSize" Value="36"/>
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
             <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextSelectionHighlightColorThemeBrush}"/>
@@ -79,7 +79,6 @@
             </StackPanel>
             <TextBlock x:Name="greetingOutput" Style="{StaticResource Blue}"/>
         </StackPanel>
-        <Button Content="View" HorizontalAlignment="Left" Margin="319,274,0,0" Grid.Row="1" VerticalAlignment="Top" Width="174" Click="PhotoPageButton_Click"/>
 
     </Grid>
 </Page>

@@ -46,30 +46,30 @@
             <TextBlock x:Name="pageTitle" Text="{StaticResource AppName}" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
                         IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,30,40"/>
         </Grid>
-        <Grid x:Name="contentGrid" HorizontalAlignment="Left" Height="844" Margin="112,92,0,-168" VerticalAlignment="Top" Width="649" Grid.RowSpan="2">
+        <Grid x:Name="contentGrid" HorizontalAlignment="Left" Height="844" Margin="112,92,0,-168" VerticalAlignment="Top" Width="1172" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="70"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Button Content="Get Photo" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Height="40" Width="119"/>
-            <TextBlock HorizontalAlignment="Left" Margin="0" Grid.Row="1" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Center" Style="{StaticResource SubheaderTextBlockStyle}"/>
-            <StackPanel x:Name="imagePanel" HorizontalAlignment="Left" Margin="1,0,0,39" VerticalAlignment="Bottom" Height="675" Width="638" UseLayoutRounding="True" Grid.Row="2" Orientation="Horizontal">
+            <Button Content="Get Photo" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Height="40" Width="119" Click="GetPhotoButton_Click"/>
+            <TextBlock HorizontalAlignment="Left" Margin="3,20,0,20" Grid.Row="1" TextWrapping="Wrap" Text="{Binding DisplayName}" VerticalAlignment="Center" Style="{StaticResource SubheaderTextBlockStyle}" Width="144"/>
+            <StackPanel x:Name="imagePanel" HorizontalAlignment="Left" Margin="1,0,0,39" VerticalAlignment="Bottom" Height="675" Width="1148" UseLayoutRounding="True" Grid.Row="2" Orientation="Horizontal">
                 <Border BorderBrush="Gray" BorderThickness="1" Width="480" Background="Gray" Margin="0" Height="480" HorizontalAlignment="Left" VerticalAlignment="Top">
                     <Image x:Name="displayImage" Width="480" Height="480" Source="Assets/Logo.png" Margin="0"/>
                 </Border>
-                <StackPanel Margin="0" Height="255" VerticalAlignment="Top" HorizontalAlignment="Left" Width="99">
+                <StackPanel Margin="0" Height="255" VerticalAlignment="Top" HorizontalAlignment="Left" Width="625">
                     <TextBlock TextWrapping="Wrap" Text="File name:" 
         				Style="{ThemeResource CaptionTextBlockStyle}" Margin="10,0,0,0"/>
-                    <TextBlock TextWrapping="Wrap" Text="TextBlock" 
+                    <TextBlock TextWrapping="Wrap" Text="{Binding Name}" 
         				Style="{ThemeResource BodyTextBlockStyle}" Margin="20,0,0,30"/>
                     <TextBlock TextWrapping="Wrap" Text="Path:" 
         				Style="{ThemeResource CaptionTextBlockStyle}" Margin="10,0,0,0"/>
-                    <TextBlock TextWrapping="Wrap" Text="TextBlock" 
+                    <TextBlock TextWrapping="Wrap" Text="{Binding Path}" 
         				Style="{ThemeResource BodyTextBlockStyle}" Margin="20,0,0,30"/>
                     <TextBlock TextWrapping="Wrap" Text="Date created:" 
         				Style="{ThemeResource CaptionTextBlockStyle}" Margin="10,0,0,0"/>
-                    <TextBlock TextWrapping="Wrap" Text="TextBlock" 
+                    <TextBlock TextWrapping="Wrap" Text="{Binding DateCreated.Date}" 
         				Style="{ThemeResource BodyTextBlockStyle}" Margin="20,0,0,30"/>
                 </StackPanel>
 
