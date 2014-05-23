@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Web.Syndication;
 
-namespace WindowsBlogReader
+namespace Image_data
 {
     // FeedData
     // Holds info for a single blog feed, including a list of blog posts (FeedItem).
@@ -177,7 +177,7 @@ namespace WindowsBlogReader
         public static FeedData GetFeed(string title)
         {
             // Simple linear search is acceptable for small data sets
-            var _feedDataSource = Upload.Current.Resources["feedDataSource"] as FeedDataSource;
+            var _feedDataSource = App.Current.Resources["feedDataSource"] as FeedDataSource;
 
             var matches = _feedDataSource.Feeds.Where((feed) => feed.Title.Equals(title));
             if (matches.Count() == 1) return matches.First();
@@ -188,7 +188,7 @@ namespace WindowsBlogReader
         public static FeedItem GetItem(string uniqueId)
         {
             // Simple linear search is acceptable for small data sets
-            var _feedDataSource = Upload.Current.Resources["feedDataSource"] as FeedDataSource;
+            var _feedDataSource = App.Current.Resources["feedDataSource"] as FeedDataSource;
             var _feeds = _feedDataSource.Feeds;
 
             var matches = _feedDataSource.Feeds.SelectMany(group => group.Items).Where((item) => item.Title.Equals(uniqueId));
