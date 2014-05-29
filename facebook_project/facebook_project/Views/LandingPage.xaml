@@ -47,7 +47,7 @@
             <TextBlock x:Name="pageTitle" Text="{StaticResource AppName}" FontSize="50" Grid.Column="1" 
                         IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="455,0,180,30" HorizontalAlignment="Center"/>
             <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Margin="10,20" Width="380">
-                <TextBlock x:Name="MyName" TextWrapping="Wrap" Text="TextBlock" FontFamily="Segoe UI" FontSize="29.333" Margin="0,0,20,0" VerticalAlignment="Bottom"/>
+                <TextBlock x:Name="MyName" TextWrapping="Wrap" Text="TextBlock" FontFamily="Segoe UI" FontSize="30" Margin="0,0,20,0" VerticalAlignment="Bottom"/>
                 <Image x:Name="MyImage" Height="100" Width="100" Margin="0"/>
             </StackPanel>
         </Grid>
@@ -64,22 +64,27 @@
             <Button Content="Post" Grid.Column="1" HorizontalAlignment="Left" Margin="443,96,0,0" VerticalAlignment="Top" Click="post"/>
             <TextBox x:Name="status" Grid.Column="1" HorizontalAlignment="Left" Margin="120,62,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="383" PlaceholderText="What's on your mind?"/>
 
-            <StackPanel Grid.Column="1" Margin="95,239,0,239" VerticalAlignment="Center">
+            <StackPanel Grid.Column="1" Margin="105,151,-10,327" VerticalAlignment="Center">
                 <Grid x:Name="WithWhomGrid" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="150"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Image x:Name="pic" HorizontalAlignment="Center" Height="150" VerticalAlignment="Center" Width="150"  Grid.Column="0" Stretch="None" Source="ms-appx:///Assets/PersonWin8.png"/>
+                    <Image x:Name="pic" HorizontalAlignment="Center" Height="150" VerticalAlignment="Center" Width="150"  Grid.Column="0" Stretch="None" Source="ms-appx:///Assets/PersonWin8.png" Tapped="selectFriendsTextBox_Tapped"/>
                     <StackPanel Grid.Column="1">
-                        <TextBlock TextWrapping="Wrap" Text="With Whom?" FontFamily="Segoe UI" FontSize="48"/>
+                        <TextBlock TextWrapping="Wrap" Text="Tag Friends" FontFamily="Segoe UI" FontSize="48" Tapped="selectFriendsTextBox_Tapped"/>
                         <!--So the selectFriendsTextBox content will change after the friends are selected -->
-                        <TextBlock x:Name="selectFriendsTextBox" TextWrapping="Wrap" Text="Select Friends" FontFamily="Segoe UI" FontSize="26.667" Foreground="Black" Tapped="selectFriendsTextBox_Tapped"/>
+                        <TextBlock x:Name="selectFriendsTextBox" TextWrapping="Wrap" Text="Select " FontFamily="Segoe UI" FontSize="26.667" Foreground="Black" Tapped="selectFriendsTextBox_Tapped"/>
                     </StackPanel>
+                    
                 </Grid>
             </StackPanel>
-            
 
+            <StackPanel Grid.Column="1" HorizontalAlignment="Right" Height="51" Margin="0,0,80,20" VerticalAlignment="Bottom" Width="147" Orientation="Horizontal">
+                <TextBlock x:Name="maps" Text="Maps" FontSize="30" 
+            		IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,20,0" HorizontalAlignment="Center" Tapped="goToMap"/>
+                <Image x:Name="map" Height="50" Width="50" Margin="0,0,10,0" Source="ms-appx:///Assets/fbmap_logo.jpg" VerticalAlignment="Bottom" Tapped="goToMap"/>
+            </StackPanel>
         </Grid>
 
 

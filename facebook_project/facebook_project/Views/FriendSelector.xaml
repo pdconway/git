@@ -73,6 +73,11 @@
         <!-- NOTE: cannot select multiple unless you have the <SelectionMode = "Multiple"> in the following code: 
         ALSO NOTE: that we named this ListBox "friendsListBox as we are going to reference it in the .cs -->
         <ListBox x:Name="friendsListBox" Grid.Row="1" ItemsSource="{Binding Friends}" ItemTemplate="{StaticResource DataTemplate1}" SelectionMode="Multiple" Margin="250,0" Foreground="DarkOrange" Background="DarkOrange" BorderBrush="DarkOrange" BorderThickness="10" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="630" ScrollViewer.HorizontalScrollBarVisibility="Auto" Grid.Column="2"/>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Right" Height="51" Margin="0,0,80,20" VerticalAlignment="Bottom" Width="147" Orientation="Horizontal">
+            <TextBlock x:Name="maps" Text="Maps" FontSize="30" 
+        		IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,20,0" HorizontalAlignment="Center" Tapped="goToMap" Foreground="DarkOrange" RequestedTheme="Light"/>
+            <Image x:Name="map" Height="50" Width="50" Margin="0,0,10,0" Source="ms-appx:///Assets/fbmap_logo.jpg" VerticalAlignment="Bottom" Tapped="goToMap"/>
+        </StackPanel>
     </Grid>
 
 </Page>

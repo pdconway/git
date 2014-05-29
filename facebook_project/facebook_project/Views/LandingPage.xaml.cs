@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -106,23 +107,54 @@ namespace facebook_project.Views
                 this.selectFriendsTextBox.Text = "Select Friends";
         }
 
+
+        //this function will determine how many friends are being added to the status and then will post to facebook
         async private void post(object sender, RoutedEventArgs e)
         {
             var postParams = new
+                        {
+                            name = "Paul Conway Windows 8.1 Application",
+                            caption = ".",
+                            description = status.Text,
+                            link = "https://www.facebook.com",
+                            picture = "http://www.wallstreet.org/wp-content/uploads/2013/10/facebook.png"
+                        };
+            if (FriendData.SelectedFriends.Count > 0)
             {
-                name = "Paul Conway Windows 8.1 Application",
-                caption = status.Text,
-                description = ".",
-                link = "https://www.facebook.com",
-                picture = "http://www.wallstreet.org/wp-content/uploads/2013/10/facebook.png"
-            };
+                if (FriendData.SelectedFriends.Count > 1)
+                {
+                    postParams = new
+                        {
+                            name = "Paul Conway Windows 8.1 Application",
+                            caption = String.Format("with {0} and {1} others", FriendData.SelectedFriends[0].Name, FriendData.SelectedFriends.Count - 1),
+                            description = status.Text,
+                            link = "https://www.facebook.com",
+                            picture = "http://www.wallstreet.org/wp-content/uploads/2013/10/facebook.png"
+                        };
+                }
+                else
+                {
+                    postParams = new
+                    {
+                        name = "Paul Conway Windows 8.1 Application",
+                        caption = String.Format("with " + FriendData.SelectedFriends[0].Name),
+                        description = status.Text,
+                        link = "https://www.facebook.com",
+                        picture = "http://www.wallstreet.org/wp-content/uploads/2013/10/facebook.png"
+                    };
+                }
+            }
+            
+            
+
+            
 
             try
             {
                 dynamic fbPostTaskResult = await fb.PostTaskAsync("/me/feed", postParams);
-                var result = (IDictionary<string, object>)fbPostTaskResult;
-
-                var successMessageDialog = new Windows.UI.Popups.MessageDialog("Posted Open Graph Action, id: " + (string)result["id"]);
+               // var result = (IDictionary<string, object>)fbPostTaskResult;
+               // var successMessageDialog = new Windows.UI.Popups.MessageDialog("Posted Open Graph Action, id: " + (string)result["id"]);
+                var successMessageDialog = new MessageDialog("Status Posted to Facebook Timeline");
                 await successMessageDialog.ShowAsync();
             }
             catch (Exception ex)
@@ -130,6 +162,11 @@ namespace facebook_project.Views
                 var exceptionMessageDialog = new Windows.UI.Popups.MessageDialog("Exception during post: " + ex.Message);
                 exceptionMessageDialog.ShowAsync();
             }
+        }
+
+        private void goToMap(object sender, TappedRoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MapPage));
         }
 
     }
