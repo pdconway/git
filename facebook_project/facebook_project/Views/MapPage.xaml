@@ -32,6 +32,8 @@
                         AutomationProperties.Name="Back"
                         AutomationProperties.AutomationId="BackButton"
                         AutomationProperties.ItemType="Navigation Button" Click="GoBackPage"/>
-        <bm:Map Credentials="AkIrQlTlL6YSVk6ZGzaOEUxI04iPZkAvZzbyNJCG6xXkDrezULoF9-XkL7JT7N00" x:Name="myMap" Grid.Row="1"></bm:Map>
+        <bm:Map Credentials="AkIrQlTlL6YSVk6ZGzaOEUxI04iPZkAvZzbyNJCG6xXkDrezULoF9-XkL7JT7N00" x:Name="myMap" Grid.Row="1">
+            
+        </bm:Map>
     </Grid>
 </Page>

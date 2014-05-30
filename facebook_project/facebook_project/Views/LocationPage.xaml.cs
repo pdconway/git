@@ -62,7 +62,7 @@ namespace facebook_project.Views
         {
             if (this.thingsListBox.SelectedIndex >= 0)
             {
-                StaticLocationData.SelectedLocation = (Location)this.thingsListBox.SelectedItem;
+                StaticLocationData.SelectedLocation = (LocationMine)this.thingsListBox.SelectedItem;
                 StaticLocationData.IsLocationSelected = true;
             }
 

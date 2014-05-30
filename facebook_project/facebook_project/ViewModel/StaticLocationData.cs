@@ -10,8 +10,8 @@ namespace facebook_project.ViewModel
     //Note to self: only reason this class is necessary is because it is a static data holder that scopes to the entire project
     class StaticLocationData
     {
-        private static ObservableCollection<Location> locations = new ObservableCollection<Location>();
-        public static ObservableCollection<Location> Locations
+        private static ObservableCollection<LocationMine> locations = new ObservableCollection<LocationMine>();
+        public static ObservableCollection<LocationMine> Locations
         {
             get
             {
@@ -34,7 +34,7 @@ namespace facebook_project.ViewModel
 
 
         //Does not need to be ObservableCollection because users will only select one location
-        public static Location SelectedLocation { get; set; }
+        public static LocationMine SelectedLocation { get; set; }
 
 
     }

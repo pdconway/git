@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace facebook_project.ViewModel
 {
-    public class Location
+    public class LocationMine
     {
         public string Street { get; set; }
 

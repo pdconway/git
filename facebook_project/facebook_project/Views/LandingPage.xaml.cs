@@ -105,8 +105,8 @@ namespace facebook_project.Views
             Geoposition pos = null;
 
             // default location 
-            double latitude = 47.627903;
-            double longitude = -122.143185;
+            double latitude = 39.9667;
+            double longitude = -86.1000;
             try
             {
                 //wait 100 milliseconds and accept locations up to 48 hours old before we give up
@@ -137,7 +137,7 @@ namespace facebook_project.Views
                 var things = (IDictionary<string, object>)item;
                 //ok so now we want look specifically at the location values 
                 var location = (IDictionary<string, object>)things["location"];
-                StaticLocationData.Locations.Add(new Location
+                StaticLocationData.Locations.Add(new LocationMine
                 {
                     
                     Street = location.ContainsKey("street") ? (string)location["street"] : String.Empty,
@@ -191,41 +191,93 @@ namespace facebook_project.Views
         //this function will determine how many friends are being added to the status and then will post to facebook
         async private void post(object sender, RoutedEventArgs e)
         {
+
+
             var postParams = new
-                        {
-                            name = "Paul Conway Windows 8.1 Application",
-                            caption = ".",
-                            description = status.Text,
-                            link = "https://www.facebook.com",
-                            picture = "http://www.wallstreet.org/wp-content/uploads/2013/10/facebook.png"
-                        };
+            {
+                name = status.Text,
+                caption = ".",
+                description = ".",
+                link = "https://www.facebook.com",
+                picture = "http://www.wallstreet.org/wp-content/uploads/2013/10/facebook.png"
+            };
+
+            if (StaticLocationData.IsLocationSelected)
+            {
+                postParams = new
+                {
+                    name = status.Text,
+                    caption = String.Format("Location " + StaticLocationData.SelectedLocation.City + ", " + StaticLocationData.SelectedLocation.State),
+                    description = ".",
+                    link = "https://www.facebook.com",
+                    picture = "http://www.wallstreet.org/wp-content/uploads/2013/10/facebook.png"
+                };
+            }
+            
             if (FriendData.SelectedFriends.Count > 0)
             {
                 if (FriendData.SelectedFriends.Count > 1)
                 {
-                    postParams = new
+                    if (StaticLocationData.IsLocationSelected)
+                    {
+                        postParams = new
                         {
-                            name = "Paul Conway Windows 8.1 Application",
-                            caption = String.Format("with {0} and {1} others", FriendData.SelectedFriends[0].Name, FriendData.SelectedFriends.Count - 1),
-                            description = status.Text,
+                            name = status.Text,
+                            caption = String.Format("Location " + StaticLocationData.SelectedLocation.City + ", " + StaticLocationData.SelectedLocation.State),
+                            description = String.Format("with {0} and {1} others", FriendData.SelectedFriends[0].Name, FriendData.SelectedFriends.Count - 1),
                             link = "https://www.facebook.com",
                             picture = "http://www.wallstreet.org/wp-content/uploads/2013/10/facebook.png"
                         };
+                    }
+                    else
+                    {
+                        postParams = new
+                        {
+                            name = status.Text,
+                            caption = ".",
+                            description = String.Format("with {0} and {1} others", FriendData.SelectedFriends[0].Name, FriendData.SelectedFriends.Count - 1),
+                            link = "https://www.facebook.com",
+                            picture = "http://www.wallstreet.org/wp-content/uploads/2013/10/facebook.png"
+                        };
+                    }      
                 }
                 else
                 {
-                    postParams = new
+                    if(StaticLocationData.IsLocationSelected)
                     {
-                        name = "Paul Conway Windows 8.1 Application",
-                        caption = String.Format("with " + FriendData.SelectedFriends[0].Name),
-                        description = status.Text,
-                        link = "https://www.facebook.com",
-                        picture = "http://www.wallstreet.org/wp-content/uploads/2013/10/facebook.png"
-                    };
+                        postParams = new
+                        {
+                            name = status.Text,
+                            caption = String.Format("Location " + StaticLocationData.SelectedLocation.City + ", " + StaticLocationData.SelectedLocation.State),
+                            description = String.Format("with " + FriendData.SelectedFriends[0].Name),
+                            link = "https://www.facebook.com",
+                            picture = "http://www.wallstreet.org/wp-content/uploads/2013/10/facebook.png"
+                        };
+                    }
+                    else
+                    {
+                        postParams = new
+                        {
+                            name = status.Text,
+                            caption = ".",
+                            description = String.Format("with " + FriendData.SelectedFriends[0].Name),
+                            link = "https://www.facebook.com",
+                            picture = "http://www.wallstreet.org/wp-content/uploads/2013/10/facebook.png"
+                        };
+                    }
+                    
                 }
             }
-            
-            
+
+            //this adds the post to the observablecollection of messages
+            StaticMessageData.Message.Add(new Messages
+            {
+                Message = postParams.name,
+                Friends = postParams.description,
+                Location = postParams.caption,
+                Location_information = StaticLocationData.SelectedLocation
+
+            });
 
             
 

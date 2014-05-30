@@ -112,8 +112,10 @@
     <Compile Include="ViewModel\Constants.cs" />
     <Compile Include="ViewModel\Friend.cs" />
     <Compile Include="ViewModel\FriendData.cs" />
-    <Compile Include="ViewModel\Location.cs" />
+    <Compile Include="ViewModel\LocationMine.cs" />
+    <Compile Include="ViewModel\Messages.cs" />
     <Compile Include="ViewModel\StaticLocationData.cs" />
+    <Compile Include="ViewModel\StaticMessageData.cs" />
     <Compile Include="Views\FriendSelector.xaml.cs">
       <DependentUpon>FriendSelector.xaml</DependentUpon>
     </Compile>

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -15,6 +16,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using facebook_project.ViewModel;
+using Bing.Maps;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -53,6 +56,41 @@ namespace facebook_project.Views
             Frame.Navigate(typeof(LandingPage));
         }
 
+        private async void pushpinTapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            MessageDialog dialog = new MessageDialog("Hello from Seattle.");
+            await dialog.ShowAsync();
+        }
+
+        //I was thinking that I needed to clear the list of dots but I think I will create the dots every single time I load the map... not the best but okay for this
+        /*
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            StaticMessageData.Message.Clear();
+            base.OnNavigatedFrom(e);
+        }
+         * */
+
+
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            //>>>so is this kinda like a super() call? or something? and then we run our own underneath... i know its necessary but why?
+            base.OnNavigatedTo(e);
+            foreach (var items in StaticMessageData.Message)
+            {
+                Pushpin pushpin = new Pushpin();
+                pushpin.Text = String.Format(items.Message + "\r\n" + "with " + items.Friends + "\r\n" + "at " + items.Location);
+                MapLayer.SetPosition(pushpin, new Location(Convert.ToDouble(items.Location_information.Latitude), Convert.ToDouble(items.Location_information.Longitude)));
+                myMap.Children.Add(pushpin);
+                
+            }
+            
+
+        }
+        /*
+        
+        */
 
     }
 }
