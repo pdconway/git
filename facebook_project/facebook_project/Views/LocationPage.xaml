@@ -10,18 +10,13 @@
 
     <Page.Resources>
         <DataTemplate x:Key="ListBoxItemTemplate">
-            <Grid Height="100" Width="300" Margin="0" Background="DarkOrange" RequestedTheme="Dark">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="11*"/>
-                    <ColumnDefinition Width="12*"/>
-                </Grid.ColumnDefinitions>
-                <!--each image and text block is binded to the picture and image from the individual friend-->
-                <Image HorizontalAlignment="Center" Height="50" VerticalAlignment="Center" Width="50" Source="{Binding PictureUri}"/>
-                <StackPanel Grid.Column="1" Margin="0,0,0,18" Orientation="Vertical">
-                    <TextBlock x:Name="RestaurantName" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Name}" VerticalAlignment="Top" FontSize="26.667" FontFamily="Segoe UI"/>
-                    <TextBlock x:Name="PlaceType" TextWrapping="Wrap" Text="{Binding Category}" FontFamily="Segoe  ui" FontSize="14.667"/>
-                </StackPanel>
-            </Grid>
+            <StackPanel HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="477" Orientation="Horizontal" Background="DarkOrange" RequestedTheme="Dark">
+            	<Image HorizontalAlignment="Center" Height="50" VerticalAlignment="Center" Width="50" Source="{Binding PictureUri}" Margin="0,0,50,0"/>
+            	<StackPanel Margin="0,2,-202,1" Orientation="Vertical" Height="97" Width="376">
+            		<TextBlock x:Name="RestaurantName" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Name}" VerticalAlignment="Top" FontSize="26.667" FontFamily="Segoe UI"/>
+            		<TextBlock x:Name="PlaceType" TextWrapping="Wrap" Text="{Binding Category}" FontFamily="Segoe  ui" FontSize="14.667"/>
+            	</StackPanel>
+        	</StackPanel>
         </DataTemplate>
     </Page.Resources>
 

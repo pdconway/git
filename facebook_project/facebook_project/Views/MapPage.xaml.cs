@@ -56,12 +56,6 @@ namespace facebook_project.Views
             Frame.Navigate(typeof(LandingPage));
         }
 
-        private async void pushpinTapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
-        {
-            MessageDialog dialog = new MessageDialog("Hello from Seattle.");
-            await dialog.ShowAsync();
-        }
-
         //I was thinking that I needed to clear the list of dots but I think I will create the dots every single time I load the map... not the best but okay for this
         /*
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -77,20 +71,29 @@ namespace facebook_project.Views
         {
             //>>>so is this kinda like a super() call? or something? and then we run our own underneath... i know its necessary but why?
             base.OnNavigatedTo(e);
+            int num = 1;
             foreach (var items in StaticMessageData.Message)
             {
                 Pushpin pushpin = new Pushpin();
-                pushpin.Text = String.Format(items.Message + "\r\n" + "with " + items.Friends + "\r\n" + "at " + items.Location);
+                //pushpin.Text = String.Format(items.Message + "\r\n" + "with " + items.Friends + "\r\n" + "at " + items.Location);
+                pushpin.Text = String.Format(num + "");
                 MapLayer.SetPosition(pushpin, new Location(Convert.ToDouble(items.Location_information.Latitude), Convert.ToDouble(items.Location_information.Longitude)));
+                pushpin.Tapped += pushpinTapped;
+                pushpin.Name = Convert.ToString(num);
                 myMap.Children.Add(pushpin);
+                num++;
                 
             }
             
 
         }
-        /*
-        
-        */
+
+
+        private async void pushpinTapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            MessageDialog dialog = new MessageDialog("HEY! I HAVE NO IDEA HOW TO TRANSFER INFORMATION FROM THIS PIN TO THIS DIALOG :(");
+            await dialog.ShowAsync();
+        }
 
     }
 }
