@@ -6,6 +6,8 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
+using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Popups;
@@ -64,7 +66,7 @@ namespace facebook_project.Views
 
         async private void selectFriendsTextBox_Tapped(object sender, TappedRoutedEventArgs evtArgs)
         {
-            
+            //its important to know that all the work is being taken care of on this tapped function before the page is even loaded!
 
             dynamic friendsTaskResult = await fb.GetTaskAsync("/me/friends");
             //sort of like a hashmap with built in functionalities 
@@ -90,6 +92,76 @@ namespace facebook_project.Views
             Frame.Navigate(typeof(FriendSelector));
         }
 
+        async private void selectPlaceTextBox_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            //its important to note that this is taking care of the work of loading locations before page is navigated to
+
+            Geolocator _geolocator = new Geolocator();
+            //this is from the threading library.....
+            CancellationTokenSource _cts = new CancellationTokenSource();
+            CancellationToken token = _cts.Token;
+
+            // Carry out the operation
+            Geoposition pos = null;
+
+            // default location 
+            double latitude = 47.627903;
+            double longitude = -122.143185;
+            try
+            {
+                //wait 100 milliseconds and accept locations up to 48 hours old before we give up
+                pos = await _geolocator.GetGeopositionAsync(new TimeSpan(48, 0, 0), new TimeSpan(0, 0, 0, 0, 100)).AsTask(token);
+            }
+            catch (Exception)
+            {
+                // this API can timeout, so no point breaking the code flow. Use
+                // default latitutde and longitude and continue on.
+            }
+
+            if (pos != null)
+            {
+                latitude = pos.Coordinate.Latitude;
+                longitude = pos.Coordinate.Longitude;
+            }
+
+            //so this thing is really cool... it kinda acts like a hashmaps that is filled with hashmaps... im a fan
+            dynamic thingsTaskResult = await fb.GetTaskAsync("/search", new {  type = "place", center = latitude.ToString() + "," + longitude.ToString(), distance = "1000" });
+            //can loop through the IDictionary guy
+            var result = (IDictionary<string, object>)thingsTaskResult;
+            //so make the processor think that they are IEnumberable types yeah so now each key and value is an object
+            var data = (IEnumerable<object>)result["data"];
+            //and bam! were looping 
+            foreach (var item in data)
+            {
+                //let turn them back into IDictionary guys 
+                var things = (IDictionary<string, object>)item;
+                //ok so now we want look specifically at the location values 
+                var location = (IDictionary<string, object>)things["location"];
+                StaticLocationData.Locations.Add(new Location
+                {
+                    
+                    Street = location.ContainsKey("street") ? (string)location["street"] : String.Empty,
+                    City = location.ContainsKey("city") ? (string)location["city"] : String.Empty,
+                    State = location.ContainsKey("state") ? (string)location["state"] : String.Empty,
+                    Country = location.ContainsKey("country") ? (string)location["country"] : String.Empty,
+                    Zip = location.ContainsKey("zip") ? (string)location["zip"] : String.Empty,
+                    Latitude = location.ContainsKey("latitude") ? ((double)location["latitude"]).ToString() : String.Empty,
+                    Longitude = location.ContainsKey("longitude") ? ((double)location["longitude"]).ToString() : String.Empty,
+
+                    // these properties are at the top level in the object...
+                    Category = things.ContainsKey("category") ? (string)things["category"] : String.Empty,
+                    Name = things.ContainsKey("name") ? (string)things["name"] : String.Empty,
+                    Id = things.ContainsKey("id") ? (string)things["id"] : String.Empty,
+                    PictureUri = new Uri(string.Format("https://graph.facebook.com/{0}/picture?type={1}&access_token={2}", (string)things["id"], "square", App.AccessToken))
+                });
+            }
+            //move to the location page
+            Frame.Navigate(typeof(LocationPage));
+        }
+
+
+
+
         //again this whole nagivationeventargs thing is throwing me off... do these events have methods that they automatically reference? like an interupt handler would?
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -105,6 +177,14 @@ namespace facebook_project.Views
             }
             else 
                 this.selectFriendsTextBox.Text = "Select Friends";
+
+
+            //for the location
+            if(StaticLocationData.IsLocationSelected)
+            {
+                this.selectRestaurantTextBox.Text = StaticLocationData.SelectedLocation.Name;
+            }
+
         }
 
 
@@ -168,6 +248,7 @@ namespace facebook_project.Views
         {
             Frame.Navigate(typeof(MapPage));
         }
+
 
     }
 }

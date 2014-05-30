@@ -64,8 +64,8 @@
             <Button Content="Post" Grid.Column="1" HorizontalAlignment="Left" Margin="443,96,0,0" VerticalAlignment="Top" Click="post"/>
             <TextBox x:Name="status" Grid.Column="1" HorizontalAlignment="Left" Margin="120,62,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="383" PlaceholderText="What's on your mind?"/>
 
-            <StackPanel Grid.Column="1" Margin="105,151,-10,327" VerticalAlignment="Center">
-                <Grid x:Name="WithWhomGrid" >
+            <StackPanel Grid.Column="1" Margin="95,149,0,121" VerticalAlignment="Center" Height="358">
+                <Grid x:Name="WithWhomGrid" Margin="0,0,0,40" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="150"/>
                         <ColumnDefinition Width="*"/>
@@ -76,7 +76,18 @@
                         <!--So the selectFriendsTextBox content will change after the friends are selected -->
                         <TextBlock x:Name="selectFriendsTextBox" TextWrapping="Wrap" Text="Select " FontFamily="Segoe UI" FontSize="26.667" Foreground="Black" Tapped="selectFriendsTextBox_Tapped"/>
                     </StackPanel>
-                    
+
+                </Grid>
+                <Grid x:Name="Whereareyou" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image HorizontalAlignment="Center" Height="150" VerticalAlignment="Center" Width="150"  Grid.Column="0" Stretch="None" Source="ms-appx:///Assets/PlacesWin8.png" Tapped="selectPlaceTextBox_Tapped" />
+                    <StackPanel Grid.Column="1">
+                        <TextBlock TextWrapping="Wrap" Text="Add Location" FontFamily="Segoe UI" FontSize="48" Tapped="selectPlaceTextBox_Tapped"/>
+                        <TextBlock x:Name="selectRestaurantTextBox" TextWrapping="Wrap" Text="Select" FontFamily="Segoe UI" FontSize="26.667" Foreground="Black" Tapped="selectPlaceTextBox_Tapped"/>
+                    </StackPanel>
                 </Grid>
             </StackPanel>
 

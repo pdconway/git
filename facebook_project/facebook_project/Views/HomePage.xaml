@@ -7,14 +7,37 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="DarkOrange">
+    <Grid Background="DarkOrange" Tapped="loginLanding">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Facebook" FontSize="50" HorizontalAlignment="Center" Margin="578,46,578,674" Grid.RowSpan="2"/>
-        <Button Grid.Row="1" Content="Login To Facebook" Height="73" HorizontalAlignment="Center" Name="btnFacebookLogin" VerticalAlignment="Center" Width="276" Click="btnFacebookLogin_Click" />
+        <TextBlock Text="Facebook" FontSize="50" HorizontalAlignment="Center" Margin="0,50,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Tapped="loginLanding" FontWeight="Bold"/>
+        <Button Grid.Row="1" Content="Login" Height="57" HorizontalAlignment="Right" Name="btnFacebookLogin" VerticalAlignment="Top" Width="88" Click="btnFacebookLogin_Click" Margin="0,60,80,0" FontSize="20" >
+            <Button.BorderBrush>
+                <SolidColorBrush Color="White" Opacity="0"/>
+            </Button.BorderBrush>
+            <Button.Background>
+                <SolidColorBrush Color="Transparent" Opacity="0"/>
+            </Button.Background>
+        </Button>
+        <TextBlock HorizontalAlignment="Left" Margin="156,250,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Height="89" Width="544" FontSize="35" FontWeight="Bold">
+        	<Run Text="Connect with friends and the"/>
+        	<LineBreak/>
+        	<Run Text="world around you on Facebook."/>
+        </TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="156,382,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Height="177" Width="638" FontSize="25">
+        	<Run Text="See photos and updates from friends in News Feed."/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run Text="Share what's new in your life on your Timeline."/>
+        	<LineBreak/>
+        	<Run/>
+        	<LineBreak/>
+        	<Run Text="Find more of what you're looking for with Graph Search."/>
+        </TextBlock>
 
     </Grid>
 </Page>

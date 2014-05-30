@@ -112,6 +112,8 @@
     <Compile Include="ViewModel\Constants.cs" />
     <Compile Include="ViewModel\Friend.cs" />
     <Compile Include="ViewModel\FriendData.cs" />
+    <Compile Include="ViewModel\Location.cs" />
+    <Compile Include="ViewModel\StaticLocationData.cs" />
     <Compile Include="Views\FriendSelector.xaml.cs">
       <DependentUpon>FriendSelector.xaml</DependentUpon>
     </Compile>
@@ -120,6 +122,9 @@
     </Compile>
     <Compile Include="Views\LandingPage.xaml.cs">
       <DependentUpon>LandingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LocationPage.xaml.cs">
+      <DependentUpon>LocationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MapPage.xaml.cs">
       <DependentUpon>MapPage.xaml</DependentUpon>
@@ -137,6 +142,7 @@
     <Content Include="Assets\fbmap_logo.jpg" />
     <Content Include="Assets\Logo.scale-100.png" />
     <Content Include="Assets\PersonWin8.png" />
+    <Content Include="Assets\PlacesWin8.png" />
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
@@ -159,6 +165,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LandingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LocationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

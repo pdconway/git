@@ -63,6 +63,15 @@ namespace facebook_project.Views
             }
         }
 
+        async private void loginLanding(object sender, TappedRoutedEventArgs e)
+        {
+            if (!App.isAuthenticated)
+            {
+                // App.isAuthenticated = true;
+                await Authenticate();
+            }
+        }
+
 
     }
 }
