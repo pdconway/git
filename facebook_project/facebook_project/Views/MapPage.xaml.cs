@@ -79,6 +79,7 @@ namespace facebook_project.Views
                 pushpin.Text = String.Format(num + "");
                 MapLayer.SetPosition(pushpin, new Location(Convert.ToDouble(items.Location_information.Latitude), Convert.ToDouble(items.Location_information.Longitude)));
                 pushpin.Tapped += pushpinTapped;
+                pushpin.Tag = String.Format(items.Message + "\r\n" + "with " + items.Friends + "\r\n" + "at " + items.Location);
                 pushpin.Name = Convert.ToString(num);
                 myMap.Children.Add(pushpin);
                 num++;
@@ -91,7 +92,7 @@ namespace facebook_project.Views
 
         private async void pushpinTapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            MessageDialog dialog = new MessageDialog("HEY! I HAVE NO IDEA HOW TO TRANSFER INFORMATION FROM THIS PIN TO THIS DIALOG :(");
+            MessageDialog dialog = new MessageDialog(Convert.ToString(((Pushpin) sender).Tag));
             await dialog.ShowAsync();
         }
 

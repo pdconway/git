@@ -110,7 +110,7 @@ namespace facebook_project.Views
             try
             {
                 //wait 100 milliseconds and accept locations up to 48 hours old before we give up
-                pos = await _geolocator.GetGeopositionAsync(new TimeSpan(48, 0, 0), new TimeSpan(0, 0, 0, 0, 100)).AsTask(token);
+                pos = await _geolocator.GetGeopositionAsync(new TimeSpan(48, 0, 0), new TimeSpan(0, 0, 0, 0, 1000)).AsTask(token);
             }
             catch (Exception)
             {
@@ -125,7 +125,7 @@ namespace facebook_project.Views
             }
 
             //so this thing is really cool... it kinda acts like a hashmaps that is filled with hashmaps... im a fan
-            dynamic thingsTaskResult = await fb.GetTaskAsync("/search", new {  type = "place", center = latitude.ToString() + "," + longitude.ToString(), distance = "1000" });
+            dynamic thingsTaskResult = await fb.GetTaskAsync("/search", new {  type = "place", center = latitude.ToString() + "," + longitude.ToString(), distance = "5000" });
             //can loop through the IDictionary guy
             var result = (IDictionary<string, object>)thingsTaskResult;
             //so make the processor think that they are IEnumberable types yeah so now each key and value is an object
@@ -191,65 +191,91 @@ namespace facebook_project.Views
         //this function will determine how many friends are being added to the status and then will post to facebook
         async private void post(object sender, RoutedEventArgs e)
         {
-
-
-            var postParams = new
-            {
-                name = status.Text,
-                caption = ".",
-                description = ".",
-                link = "https://www.facebook.com",
-                picture = "http://www.wallstreet.org/wp-content/uploads/2013/10/facebook.png"
-            };
-
+            //if the a location has been selected
             if (StaticLocationData.IsLocationSelected)
             {
-                postParams = new
+                var postParams_ifSelected = new
                 {
                     name = status.Text,
                     caption = String.Format("Location " + StaticLocationData.SelectedLocation.City + ", " + StaticLocationData.SelectedLocation.State),
                     description = ".",
                     link = "https://www.facebook.com",
+                    picture = StaticLocationData.SelectedLocation.PictureUri.ToString()
+                };
+
+                if (FriendData.SelectedFriends.Count > 0)
+                {
+                    if (FriendData.SelectedFriends.Count > 1)
+                    {
+                        postParams_ifSelected = new
+                        {
+                            name = status.Text,
+                            caption = String.Format("Location " + StaticLocationData.SelectedLocation.City + ", " + StaticLocationData.SelectedLocation.State),
+                            description = String.Format("with {0} and {1} others", FriendData.SelectedFriends[0].Name, FriendData.SelectedFriends.Count - 1),
+                            link = "https://www.facebook.com",
+                            picture = StaticLocationData.SelectedLocation.PictureUri.ToString()
+                        };
+                    }
+                    else
+                    {
+                        postParams_ifSelected = new
+                        {
+                            name = status.Text,
+                            caption = String.Format("Location " + StaticLocationData.SelectedLocation.City + ", " + StaticLocationData.SelectedLocation.State),
+                            description = String.Format("with " + FriendData.SelectedFriends[0].Name),
+                            link = "https://www.facebook.com",
+                            picture = StaticLocationData.SelectedLocation.PictureUri.ToString()
+                        };
+                    }
+                }
+
+                //this adds the post to the observablecollection of messages
+                StaticMessageData.Message.Add(new Messages
+                {
+                    Message = postParams_ifSelected.name,
+                    Friends = postParams_ifSelected.description,
+                    Location = postParams_ifSelected.caption,
+                    Location_information = StaticLocationData.SelectedLocation
+
+                });
+
+
+
+                try
+                {
+                    dynamic fbPostTaskResult = await fb.PostTaskAsync("/me/feed", postParams_ifSelected);
+                    // var result = (IDictionary<string, object>)fbPostTaskResult;
+                    // var successMessageDialog = new Windows.UI.Popups.MessageDialog("Posted Open Graph Action, id: " + (string)result["id"]);
+                    var successMessageDialog = new MessageDialog("Status Posted to Facebook Timeline");
+                    await successMessageDialog.ShowAsync();
+                }
+                catch (Exception ex)
+                {
+                    var exceptionMessageDialog = new Windows.UI.Popups.MessageDialog("Exception during post: " + ex.Message);
+                    exceptionMessageDialog.ShowAsync();
+                }
+
+            }
+            else
+            {
+                var postParams = new
+                {
+                    name = status.Text,
+                    caption = ".",
+                    description = ".",
+                    link = "https://www.facebook.com",
                     picture = "http://www.wallstreet.org/wp-content/uploads/2013/10/facebook.png"
                 };
-            }
-            
-            if (FriendData.SelectedFriends.Count > 0)
-            {
-                if (FriendData.SelectedFriends.Count > 1)
+
+                if (FriendData.SelectedFriends.Count > 0)
                 {
-                    if (StaticLocationData.IsLocationSelected)
-                    {
-                        postParams = new
-                        {
-                            name = status.Text,
-                            caption = String.Format("Location " + StaticLocationData.SelectedLocation.City + ", " + StaticLocationData.SelectedLocation.State),
-                            description = String.Format("with {0} and {1} others", FriendData.SelectedFriends[0].Name, FriendData.SelectedFriends.Count - 1),
-                            link = "https://www.facebook.com",
-                            picture = "http://www.wallstreet.org/wp-content/uploads/2013/10/facebook.png"
-                        };
-                    }
-                    else
+                    if (FriendData.SelectedFriends.Count > 1)
                     {
                         postParams = new
                         {
                             name = status.Text,
                             caption = ".",
                             description = String.Format("with {0} and {1} others", FriendData.SelectedFriends[0].Name, FriendData.SelectedFriends.Count - 1),
-                            link = "https://www.facebook.com",
-                            picture = "http://www.wallstreet.org/wp-content/uploads/2013/10/facebook.png"
-                        };
-                    }      
-                }
-                else
-                {
-                    if(StaticLocationData.IsLocationSelected)
-                    {
-                        postParams = new
-                        {
-                            name = status.Text,
-                            caption = String.Format("Location " + StaticLocationData.SelectedLocation.City + ", " + StaticLocationData.SelectedLocation.State),
-                            description = String.Format("with " + FriendData.SelectedFriends[0].Name),
                             link = "https://www.facebook.com",
                             picture = "http://www.wallstreet.org/wp-content/uploads/2013/10/facebook.png"
                         };
@@ -265,35 +291,34 @@ namespace facebook_project.Views
                             picture = "http://www.wallstreet.org/wp-content/uploads/2013/10/facebook.png"
                         };
                     }
-                    
                 }
-            }
 
-            //this adds the post to the observablecollection of messages
-            StaticMessageData.Message.Add(new Messages
-            {
-                Message = postParams.name,
-                Friends = postParams.description,
-                Location = postParams.caption,
-                Location_information = StaticLocationData.SelectedLocation
+                //this adds the post to the observablecollection of messages
+                StaticMessageData.Message.Add(new Messages
+                {
+                    Message = postParams.name,
+                    Friends = postParams.description,
+                    Location = postParams.caption,
+                    Location_information = StaticLocationData.SelectedLocation
 
-            });
+                });
 
-            
 
-            try
-            {
-                dynamic fbPostTaskResult = await fb.PostTaskAsync("/me/feed", postParams);
-               // var result = (IDictionary<string, object>)fbPostTaskResult;
-               // var successMessageDialog = new Windows.UI.Popups.MessageDialog("Posted Open Graph Action, id: " + (string)result["id"]);
-                var successMessageDialog = new MessageDialog("Status Posted to Facebook Timeline");
-                await successMessageDialog.ShowAsync();
-            }
-            catch (Exception ex)
-            {
-                var exceptionMessageDialog = new Windows.UI.Popups.MessageDialog("Exception during post: " + ex.Message);
-                exceptionMessageDialog.ShowAsync();
-            }
+
+                try
+                {
+                    dynamic fbPostTaskResult = await fb.PostTaskAsync("/me/feed", postParams);
+                    // var result = (IDictionary<string, object>)fbPostTaskResult;
+                    // var successMessageDialog = new Windows.UI.Popups.MessageDialog("Posted Open Graph Action, id: " + (string)result["id"]);
+                    var successMessageDialog = new MessageDialog("Status Posted to Facebook Timeline");
+                    await successMessageDialog.ShowAsync();
+                }
+                catch (Exception ex)
+                {
+                    var exceptionMessageDialog = new Windows.UI.Popups.MessageDialog("Exception during post: " + ex.Message);
+                    exceptionMessageDialog.ShowAsync();
+                }
+            }          
         }
 
         private void goToMap(object sender, TappedRoutedEventArgs e)
