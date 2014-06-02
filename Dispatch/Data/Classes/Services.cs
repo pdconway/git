@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dispatch.Card;
+using Attributes.Card;
+using Attributes.Classes;
 
 namespace Data.Classes
 {
@@ -18,9 +19,13 @@ namespace Data.Classes
         }
 
 
-        public void setTripCardData(ArraySegment<TripCard> newTripCard)
+        public void setTripCardDataArr(List<TripCard> newTripCard)
         {
             this.model.setTripCardList(newTripCard);
+        }
+        public void setTripCardDataDic(Dictionary<TripCard, Asset> newTripCard)
+        {
+            this.model.setTripCardListAss(newTripCard);
         }
     }
 }
