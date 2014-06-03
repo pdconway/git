@@ -10,11 +10,11 @@ namespace Attributes.CardAttributes
     public class Activity
     {
         private int TripCard_ID; 
-        private Asset Activity_Asset = new Asset();
-        private Worker Activity_Line_Worker = new Worker();
+        private Asset Activity_Asset;
+        private Worker Activity_Line_Worker;
         private Demand Activity_Line = new Demand();
 
-        public Activity() { }
+        //constructor... HAS TO HAVE AN ID!
         public Activity(int id)
         {
             this.TripCard_ID = id;

@@ -10,7 +10,7 @@ namespace Attributes.Card
     public class TripCard
     {
         private int tripCard_ID;
-        private Activity activity = new Activity();
+        private Activity activity;
         private MyAction action = new MyAction(); 
         //truck and trail are assets
         //driver is a worker 

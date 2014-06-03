@@ -20,6 +20,7 @@ o	EX:
      * */
     public class MyAction
     {
+        //CLASS VARIABLES
         //statius_identification is number 1-400 that identifies action of truck
         private UInt16 status_identification; 
         private enum action { depart, arrive };
@@ -39,6 +40,8 @@ o	EX:
             this.status_identification = num;
             this.enumDict.Add(action.arrive, false);
             this.enumDict.Add(action.depart, false);
+            this.act.Add(action.arrive);
+            this.act.Add(action.depart);
         }
 
         public bool setActionStatus(action act, bool b)
@@ -57,13 +60,21 @@ o	EX:
 
         public List<action> getAvailableActions()
         {
-            List<action> arr = new List<action>();
-            var idk = (IEnumerable<object>)this.enumDict;
-            for(object item in idk)
+            List<action> returnArr = new List<action>();
+            
+            foreach(action item in this.act)
             {
-                var uh = (Dictionary<action, bool>)item;
-                if(uh.)
-            }
+                bool tmp;
+                if (this.enumDict.TryGetValue(item, out tmp))
+                {
+                    tmp = this.enumDict[item];
+                    if (tmp)
+                    {
+                        returnArr.Add(item);
+                    }
+                }             
+            };
+            return returnArr;
         }
 
 
