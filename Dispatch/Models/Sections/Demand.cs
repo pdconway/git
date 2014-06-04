@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Models.Classes;
 
 
-namespace Models.Classes
+namespace Models.Sections
 {
     public class Demand
     {
@@ -14,7 +15,7 @@ namespace Models.Classes
         //weight = importance != pounds
         private UInt16 weight;
         private string weight_UOM = "percentage";
-        private enum Pickup { Inbound, Outbound, Inbound_Outbound};
+        public enum Pickup { Inbound, Outbound, Inbound_Outbound};
         //so inbound = 0, outbound = 1; inbound_outbound = 2;
 
         #region getSet

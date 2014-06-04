@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Models.Card;
 using Models.Classes;
+using Models.Sections;
 
 namespace Data_.Classes
 {

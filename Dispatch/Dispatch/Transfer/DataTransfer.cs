@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Models.Card;
 using Models.Classes;
 using Data_.Classes;
+using Models.Sections;
 
 namespace Dispatch.Classes
 {
