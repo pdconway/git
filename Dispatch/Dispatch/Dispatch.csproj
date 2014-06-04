@@ -139,13 +139,13 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Attributes\Attributes.csproj">
-      <Project>{d5a9b7b3-5458-4416-aca5-6714c1fc38fb}</Project>
-      <Name>Attributes</Name>
+    <ProjectReference Include="..\Data_\Data_.csproj">
+      <Project>{18e6ca20-ba81-4353-b2a6-ced27391305d}</Project>
+      <Name>Data_</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Data\Data.csproj">
-      <Project>{94456e37-35ad-4b7a-b61a-fb907b47b422}</Project>
-      <Name>Data</Name>
+    <ProjectReference Include="..\Models\Models.csproj">
+      <Project>{068278a0-18b1-4696-96db-448901c118fc}</Project>
+      <Name>Models</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">

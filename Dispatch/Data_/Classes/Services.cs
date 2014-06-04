@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 using Models.Card;
 using Models.Classes;
 
-namespace Data.Classes
+namespace Data_.Classes
 {
     public class Services
     {
         //instantiates the data which is static throughout the projects
-        private Models model = new Models();
+        private Model model = new Model();
         //returns the data that we are to work with for this project
-        public Models RetrieveData()
+        public Model RetrieveData()
         {
             return this.model;
         }

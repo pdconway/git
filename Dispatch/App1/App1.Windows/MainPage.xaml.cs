@@ -12,11 +12,10 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Models.CardAttributes;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace Dispatch
+namespace App1
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -26,18 +25,6 @@ namespace Dispatch
         public MainPage()
         {
             this.InitializeComponent();
-            this.LoadInformation();
         }
-
-        public void LoadInformation()
-        {
-            MyAction act = new MyAction();
-            Dictionary<MyAction.action, bool> dict = act.getEnumDict();
-
-            this.one.Text = Convert.ToString(dict[MyAction.action.arrive]);
-            act.setActionStatus(MyAction.action.arrive, true);
-            this.two.Text = Convert.ToString(dict[MyAction.action.arrive]);
-        }
-
     }
 }

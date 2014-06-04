@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Models.Classes;
 using Models.Card;
 
-namespace Data.Classes
+namespace Data_.Classes
 {
-    public class Models
+    public class Model
     {
         //created these to be static so that they are the SAME DATA throughout the entire SLN 
         private static List<Asset> assetList = new List<Asset>();

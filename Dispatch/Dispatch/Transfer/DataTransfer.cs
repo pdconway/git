@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Attributes.Card;
-using Attributes.Classes;
-using Data.Classes;
+using Models.Card;
+using Models.Classes;
+using Data_.Classes;
 
 namespace Dispatch.Classes
 {
@@ -19,7 +19,7 @@ namespace Dispatch.Classes
 
         public DataTransfer()
         {
-            Models model = services.RetrieveData();
+            Model model = services.RetrieveData();
             this.assetList = model.getAssetList();
             this.workerList = model.getWorkerList();
             this.tripCardList = model.getCardList();
@@ -27,7 +27,7 @@ namespace Dispatch.Classes
         public DataTransfer(string na)
         {
             this.name = na;
-            Models model = services.RetrieveData();
+            Model model = services.RetrieveData();
             this.assetList = model.getAssetList();
             this.workerList = model.getWorkerList();
             this.tripCardList = model.getCardList();
