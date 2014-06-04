@@ -9,10 +9,10 @@
 
     <Grid Background="DarkGreen">
         <TextBox x:Name="user" HorizontalAlignment="Center" Margin="0,342,0,0" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="Username" Height="26" Width="408"/>
-        <TextBox x:Name="pass" HorizontalAlignment="Center" Margin="0,394,0,0" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="Password" Height="26" Width="408"/>
-        
-        <Button Content="Login" HorizontalAlignment="Center" Margin="0,444,0,0" VerticalAlignment="Top"/>
+        <PasswordBox x:Name="pass" HorizontalAlignment="Center" Margin="0,394,0,0" VerticalAlignment="Top" PlaceholderText="Password" Height="26" Width="408"/>
+        <Button Content="Login" HorizontalAlignment="Center" Margin="0,444,0,0" VerticalAlignment="Top" Click="tryLogin"/>
         <TextBlock HorizontalAlignment="Center" Margin="0,498,0,0" TextWrapping="Wrap" Text="Create New User" VerticalAlignment="Top" Height="26" Width="408" FontSize="15" FontStyle="Italic" TextAlignment="Center" Tapped="goToNewUserPage"/>
+        
 
     </Grid>
 </Page>

@@ -41,6 +41,7 @@
     <Compile Include="CardAttributes\MyAction.cs" />
     <Compile Include="Card\TripCard.cs" />
     <Compile Include="Classes\Address.cs" />
+    <Compile Include="Classes\Input.cs" />
     <Compile Include="Classes\Key.cs" />
     <Compile Include="Classes\UserData.cs" />
     <Compile Include="Sections\Asset.cs" />

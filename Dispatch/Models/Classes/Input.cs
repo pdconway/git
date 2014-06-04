@@ -6,28 +6,37 @@ using System.Threading.Tasks;
 
 namespace Models.Classes
 {
-    public class Input
+    public class Input<O, T>
+        where O : class
+        where T : class
     {
-        private string username;
-        private string password;
 
-        public Input(string user, string pass)
+        private O key;
+        private T value;
+
+        public Input(O k, T v)
         {
-            this.username = user;
-            this.password = pass;
+            this.key = k;
+            this.value = v;
         }
 
-        public string getUser()
+        public O getKey()
         {
-            return this.username;
+            return this.key;
         }
-        public string getPass()
+        public T getValue()
         {
-            return this.password;
+            return this.value;
         }
-        public void setUser(string user)
+        public void setKey(O k)
         {
-            this.username = user;
+            this.key = k;
         }
+        public void setValue(T v)
+        {
+            this.value = v;
+        }
+
+        
     }
 }

@@ -28,7 +28,6 @@ namespace Dispatch.View
         private User newUser;
         private Input newInput;
         private string keyBinary;
-        private string password = "";
 
         public NewUser()
         {
@@ -48,8 +47,14 @@ namespace Dispatch.View
         {
             if (this.key.Text == this.keyBinary)
             {
-                if ((this.first.Text != null) && (this.last.Text != null) && (this.user.Text != null) && (this.password != null))
+                if ((this.first.Text != null) && (this.last.Text != null) && (this.user.Text != null) && (this.pass.Password != null) && (this.varifypass.Password != null))
                 {
+                    if (this.pass.Password != this.varifypass.Password)
+                    {
+                        MessageDialog notEqual = new MessageDialog("Passwords are not equal");
+                        await notEqual.ShowAsync();
+                        return;
+                    }
                     foreach (string user in UserData.usernames)
                     {
                         if (this.user.Text == user)
@@ -59,10 +64,10 @@ namespace Dispatch.View
                             return;
                         }
                     }
-                    if (this.password.Length >= 13)
+                    if (this.pass.Password.Length >= 13)
                     {
                         newUser = new User(this.first.Text, this.last.Text);                    
-                        newInput = new Input(this.user.Text, this.password);
+                        newInput = new Input(this.user.Text, this.pass.Password);
                         UserData.input.Add(newInput);
                         UserData.usernames.Add(this.user.Text);
                         UserData.userDictionary.Add(newInput, newUser);
@@ -88,22 +93,9 @@ namespace Dispatch.View
         }
 
 
-
-        private void getPassword(object sender, RoutedEventArgs e)
+        private void refresh(object sender, RoutedEventArgs e)
         {
-            if (this.pass.Text.Length > 0)
-            {
-                int num = this.pass.Text.Length;
-                //string last = this.pass.Text.Substring(num - 1, num);
-                this.password = this.pass.Text;
-                this.pass.Text = "";
-
-                while (num != 0)
-                {
-                    this.pass.Text += "*";
-                    num--;
-                }
-            }
+            Frame.Navigate(typeof(NewUser));
         }
 
 

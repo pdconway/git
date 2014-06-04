@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Models.Classes;
+using Windows.UI.Popups;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -39,7 +40,7 @@ namespace Dispatch.View
         {
             if (UserData.usernames.Contains(str))
             {
-                this.inp = new Input(this.user.Text, this.pass.Text);
+                this.inp = new Input(this.user.Text, this.pass.Password);
                 if (UserData.input.Contains(inp))
                     return true;
                 else
@@ -49,17 +50,26 @@ namespace Dispatch.View
                 return false;
         }
 
-        private void tryLogin(object sender, RoutedEventArgs e)
+        async private void tryLogin(object sender, RoutedEventArgs e)
         {
-            if ((this.user.Text != null) && (this.pass.Text != null))
+            if ((this.user.Text != null) && (this.pass.Password != null))
             {
                 if (this.varifyUser(this.user.Text))
                 {
-
+                    Frame.Navigate(typeof(MainPage));
+                }
+                else
+                {
+                    MessageDialog warning = new MessageDialog("Incorrect Username and Password!");
+                    await warning.ShowAsync();
                 }
             }
             else
-                return false;
+            {
+                MessageDialog notFilled = new MessageDialog("Please Enter Username and Password");
+                await notFilled.ShowAsync();
+            }
+               
             
         }
 

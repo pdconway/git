@@ -11,16 +11,16 @@ namespace Models.Classes
     {
         //to check to see if the user exists
         public static List<string> usernames = new List<string>();
-        public static List<Input> input = new List<Input>();
-        public static Dictionary<Input, User> userDictionary = new Dictionary<Input, User>();
+        public static List<Input<string,string>> input = new List<Input<string,string>>();
+        public static Dictionary<string, Input<string,User>> userDictionary = new Dictionary<string, Input<string,User>>();
 
         public UserData() { }
 
-        public void addInput(Input i)
+        public void addInput(Input<string,string> i)
         {
             input.Add(i);
         }
-        public void removeInput(Input i)
+        public void removeInput(Input<string,string> i)
         {
             input.Remove(i);
         }
@@ -32,11 +32,11 @@ namespace Models.Classes
         {
             usernames.Remove(oldUser);
         }
-        public void addToDictionary(Input i, User u)
+        public void addToDictionary(string i, Input<string,User> u)
         {
             userDictionary.Add(i, u);
         }
-        public void removeFromDictionary(Input i)
+        public void removeFromDictionary(string i, Input<string,User> u)
         {
             userDictionary.Remove(i);
         }
