@@ -12,8 +12,11 @@ namespace Attributes.Classes
         private int Worker_ID;
         private string name;
         private LocationPoint location;
-        private UInt16 hourlyRate; 
-        
+        private UInt16 hourlyRate;
+
+        //created empty constructor b/c build problems 
+        //>>>QUESTION<<< base is same as super() ???
+        public Worker() { }
         //constructors 
         //IMPORTANT! each Worker is instantiated with ID!
         public Worker(int id)

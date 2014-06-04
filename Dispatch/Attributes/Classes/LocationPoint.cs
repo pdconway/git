@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Attributes.Classes
 {
-    class LocationPoint
+    public class LocationPoint
     {
         //CLASS VARIABLES
         private float latitude;

@@ -23,7 +23,7 @@ o	EX:
         //CLASS VARIABLES
         //statius_identification is number 1-400 that identifies action of truck
         private UInt16 status_identification; 
-        private enum action { depart, arrive };
+        public enum action { depart, arrive };
         private Dictionary<action, bool> enumDict = new Dictionary<action, bool>();
         private List<action> act = new List<action>();
        // private Dictionary<string, bool> stringDict = new Dictionary<string, bool>();
@@ -44,12 +44,18 @@ o	EX:
             this.act.Add(action.depart);
         }
 
+        public Dictionary<action, bool> getEnumDict()
+        {
+            return this.enumDict;
+        }
+
         public bool setActionStatus(action act, bool b)
         {
             if (this.enumDict.ContainsKey(act))
             {
-                this.enumDict.Remove(act);
-                this.enumDict.Add(act, b);
+                //this.enumDict.Remove(act);
+                //this.enumDict.Add(act, b);
+                this.enumDict[act] = b;
                 return true;
             }
             else

@@ -13,6 +13,8 @@ namespace Attributes.Classes
         private string name;
         private LocationPoint location;
 
+        //create empty constructor because of build problem
+        public Asset() { }
         //constructors 
         //IMPORTANT! every asset HAS to be instantiated with an ID!
         public Asset(int ID)

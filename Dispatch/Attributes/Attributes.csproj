@@ -7,8 +7,8 @@
     <ProjectGuid>{D5A9B7B3-5458-4416-ACA5-6714C1FC38FB}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Attributes</RootNamespace>
-    <AssemblyName>Attributes</AssemblyName>
+    <RootNamespace>Dispatch</RootNamespace>
+    <AssemblyName>Dispatch</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
     <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
