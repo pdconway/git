@@ -1,0 +1,84 @@
+﻿<Page
+    x:Class="facebook_project.Views.LocationPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:facebook_project.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ViewModel="using:facebook_project.ViewModel"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <DataTemplate x:Key="ListBoxItemTemplate">
+            <StackPanel HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="477" Orientation="Horizontal" Background="DarkOrange" RequestedTheme="Dark">
+            	<Image HorizontalAlignment="Center" Height="50" VerticalAlignment="Center" Width="50" Source="{Binding PictureUri}" Margin="0,0,50,0"/>
+            	<StackPanel Margin="0,2,-202,1" Orientation="Vertical" Height="97" Width="376">
+            		<TextBlock x:Name="RestaurantName" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Name}" VerticalAlignment="Top" FontSize="26.667" FontFamily="Segoe UI"/>
+            		<TextBlock x:Name="PlaceType" TextWrapping="Wrap" Text="{Binding Category}" FontFamily="Segoe  ui" FontSize="14.667"/>
+            	</StackPanel>
+        	</StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+
+
+    <Grid Background="White" RequestedTheme="Dark">
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="140"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.DataContext>
+            <!--allows for "Locations" to be referenced later in page-->
+            <ViewModel:StaticLocationData/>
+        </Grid.DataContext>
+
+        <!--The title and backbutton and the picture-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="400"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="backButton" Margin="39,59,39,0" 
+   		    	Style="{StaticResource NavigationBackButtonNormalStyle}"
+   			    VerticalAlignment="Top"
+   		    	AutomationProperties.Name="Back"
+   			    AutomationProperties.AutomationId="BackButton"
+   		    	AutomationProperties.ItemType="Navigation Button" Click="GoBackPage" Foreground="DarkOrange" RequestedTheme="Dark">
+                <Button.Background>
+                    <SolidColorBrush Color="Black" Opacity="0"/>
+                </Button.Background>
+                <Button.BorderBrush>
+                    <SolidColorBrush Color="White" Opacity="0"/>
+                </Button.BorderBrush>
+            </Button>
+            <TextBlock x:Name="pageTitle" Text="Facebook" FontSize="50" Grid.Column="1" 
+    		   	IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="455,0,180,30" HorizontalAlignment="Center" Foreground="DarkOrange"/>
+            <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Margin="10,20" Width="380">
+                <TextBlock x:Name="MyName" TextWrapping="Wrap" Text="TextBlock" FontFamily="Segoe UI" FontSize="29.333" Margin="0,0,20,0" VerticalAlignment="Bottom" Tapped="goToHome" RequestedTheme="Light" Foreground="DarkOrange"/>
+                <Image x:Name="MyImage" Height="100" Width="100" Margin="0" Tapped="goToHome"/>
+            </StackPanel>
+        </Grid>
+
+
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Right" Height="51" Margin="0,0,80,20" VerticalAlignment="Bottom" Width="147" Orientation="Horizontal">
+            <TextBlock x:Name="maps" Text="Maps" FontSize="30" 
+        		IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,20,0" HorizontalAlignment="Center" Tapped="goToMap" Foreground="DarkOrange" RequestedTheme="Light"/>
+            <Image x:Name="map" Height="50" Width="50" Margin="0,0,10,0" Source="ms-appx:///Assets/fbmap_logo.jpg" VerticalAlignment="Bottom" Tapped="goToMap"/>
+        </StackPanel>
+
+
+        <Grid Grid.Row="1" Height="630">
+            <ListBox x:Name="thingsListBox" VerticalAlignment="Center" ItemsSource="{Binding Locations}" ItemTemplate="{StaticResource ListBoxItemTemplate}" SelectionMode="Single" Margin="250,0" Foreground="DarkOrange" Background="DarkOrange" BorderBrush="DarkOrange" BorderThickness="10" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="630" ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Center" Height="628"/>
+        </Grid>
+
+
+
+    </Grid>
+</Page>
