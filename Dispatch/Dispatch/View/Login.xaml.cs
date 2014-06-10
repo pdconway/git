@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Models.Classes;
 using Windows.UI.Popups;
+using Models.UserStuff;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -24,11 +25,13 @@ namespace Dispatch.View
     /// </summary>
     public sealed partial class Login : Page
     {
-        private Mapper<string,User> inp;
+        private Mapper<string,User> map;
 
         public Login()
         {
             this.InitializeComponent();
+            //this is sample data for users
+            UserData.includeSampleData();
         }
 
         private void goToNewUserPage(object sender, TappedRoutedEventArgs e)
@@ -40,9 +43,15 @@ namespace Dispatch.View
         {
             if (UserData.usernames.Contains(str))
             {
-                this.inp = UserData.userDictionary[str];
-                if (this.pass.Password == this.inp.getKey())
+                this.map = UserData.userDictionary[str];
+                if (this.pass.Password == this.map.key)
+                {
+                    //this is how the current user is stored in data so that we can 
+                    //access the user information on the main page
+                    UserData.currentUser = this.map.value;
                     return true;
+                }
+                    
                 else
                     return false;
             }
@@ -52,7 +61,7 @@ namespace Dispatch.View
 
         async private void tryLogin(object sender, RoutedEventArgs e)
         {
-            if ((this.user.Text != null) && (this.pass.Password != null))
+            if ((this.user.Text != "") && (this.pass.Password != ""))
             {
                 if (this.varifyUser(this.user.Text))
                 {
@@ -69,9 +78,11 @@ namespace Dispatch.View
                 MessageDialog notFilled = new MessageDialog("Please Enter Username and Password");
                 await notFilled.ShowAsync();
             }
-               
-            
         }
+
+
+
+
 
 
     }

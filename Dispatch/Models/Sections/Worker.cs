@@ -7,17 +7,17 @@ using Models.Classes;
 
 namespace Models.Sections
 {
-    public class Worker
+    public abstract class Worker
     {
         //CLASS VARIABLES
         private int Worker_ID;
-        private string name;
+        public string Name { get; set; }
         private LocationPoint location;
         private UInt16 hourlyRate;
 
         //created empty constructor b/c build problems 
         //>>>QUESTION<<< base is same as super() ???
-        public Worker() { }
+        //public Worker() { }
         //constructors 
         //IMPORTANT! each Worker is instantiated with ID!
         public Worker(int id)
@@ -27,7 +27,7 @@ namespace Models.Sections
         public Worker(int id, string na)
         {
             this.Worker_ID = id;
-            this.name = na;
+            this.Name = na;
         }
 
         #region getSet
@@ -38,14 +38,6 @@ namespace Models.Sections
         public void setID(int id)
         {
             this.Worker_ID = id;
-        }
-        public string getName()
-        {
-            return this.name;
-        }
-        public void setName(string na)
-        {
-            this.name = na;
         }
         public LocationPoint getLocation()
         {
@@ -74,6 +66,19 @@ namespace Models.Sections
         public class Driver : Worker
         {
             private UInt16 hoursWorked;
+
+            public Driver(int id) : base(id)
+            {
+                this.Worker_ID = id;
+            }
+            public Driver(int id, string name)
+                : base(id, name)
+            {
+                this.Worker_ID = id;
+                this.Name = name;
+            }
+
+
 
             public void setHoursWorked(UInt16 hours)
             {

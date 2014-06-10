@@ -11,21 +11,30 @@ namespace Models.Sections
     public class Demand
     {
         //CLASS VARIABLES
-        private Address address;
+        private Address endAddress;
+        private Address startAddress;
         //weight = importance != pounds
         private UInt16 weight;
-        private string weight_UOM = "percentage";
-        public enum Pickup { Inbound, Outbound, Inbound_Outbound};
+        private static readonly string weight_UOM = "percentage";
+        
         //so inbound = 0, outbound = 1; inbound_outbound = 2;
 
         #region getSet
-        public Address getAddress()
+        public Address getStartAddress()
         {
-            return this.address;
+            return this.startAddress;
         }
-        public void setAddress(Address ad)
+        public void setStartAddress(Address ad)
         {
-            this.address = ad;
+            this.startAddress = ad;
+        }
+        public Address getEndAddress()
+        {
+            return this.endAddress;
+        }
+        public void setEndAddress(Address ad)
+        {
+            this.endAddress = ad;
         }
         public UInt16 getWeight()
         {

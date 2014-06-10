@@ -7,15 +7,15 @@ using Models.Classes;
 
 namespace Models.Sections
 {
-    public class Asset
+    public abstract class Asset
     {
         //CLASS VARIABLES
         private int asset_ID;
-        private string name;
+        public string Name { get; set; }
         private LocationPoint location;
 
         //create empty constructor because of build problem
-        public Asset() { }
+        //public Asset() { }
         //constructors 
         //IMPORTANT! every asset HAS to be instantiated with an ID!
         public Asset(int ID)
@@ -25,19 +25,11 @@ namespace Models.Sections
         public Asset(int ID, string name)
         {
             this.asset_ID = ID;
-            this.name = name;
+            this.Name = name;
         }
         //end constructors
 
         #region getters_setters
-        public void setName(string na)
-        {
-            this.name = na;
-        }
-        public string getName()
-        {
-            return this.name;
-        }
         public void setID(int id)
         {
             this.asset_ID = id;
@@ -63,6 +55,18 @@ namespace Models.Sections
         {
             private UInt16 towWeight; 
             private bool broken;
+
+            public Truck(int id)
+                : base(id)
+            {
+                this.asset_ID = id;
+            }
+            public Truck(int id, string name)
+                : base(id, name)
+            {
+                this.asset_ID = id;
+                this.Name = name;
+            }
 
             #region getSet
             public UInt16 getTowWeight()
@@ -90,6 +94,18 @@ namespace Models.Sections
         {
             private UInt16 towVolume;
 
+            public Trailer(int id)
+                : base(id)
+            {
+                this.asset_ID = id;
+            }
+            public Trailer(int id, string name)
+                : base(id, name)
+            {
+                this.asset_ID = id;
+                this.Name = name;
+            }
+
             public void setTowVolume(UInt16 tv)
             {
                 this.towVolume = tv;
@@ -107,6 +123,17 @@ namespace Models.Sections
         public class Connector : Asset
         {
 
+            public Connector(int id)
+                : base(id)
+            {
+                this.asset_ID = id;
+            }
+            public Connector(int id, string name)
+                : base(id, name)
+            {
+                this.asset_ID = id;
+                this.Name = name;
+            }
         }
 
 

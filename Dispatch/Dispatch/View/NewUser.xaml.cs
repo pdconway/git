@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Models.Classes;
 using Windows.UI.Popups;
+using Models.UserStuff;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -27,6 +28,7 @@ namespace Dispatch.View
         //KEY THAT IS NEEDED IN ORDER TO CREATE A NEW USER!
         private User newUser;
         private Mapper<string, User> newInput;
+        //private Input newInput;
         private string keyBinary;
 
         public NewUser()
@@ -34,6 +36,7 @@ namespace Dispatch.View
             this.InitializeComponent();
             this.keyBinary = Convert.ToString(Key.K, 2);
             this.addkey();
+            
         }
 
         //temporary method to add the key value to the key textbox
@@ -47,7 +50,7 @@ namespace Dispatch.View
         {
             if (this.key.Text == this.keyBinary)
             {
-                if ((this.first.Text != null) && (this.last.Text != null) && (this.user.Text != null) && (this.pass.Password != null) && (this.varifypass.Password != null))
+                if ((this.first.Text != "") && (this.last.Text != "") && (this.user.Text != "") && (this.pass.Password != "") && (this.varifypass.Password != ""))
                 {
                     if (this.pass.Password != this.varifypass.Password)
                     {
@@ -64,9 +67,9 @@ namespace Dispatch.View
                             return;
                         }
                     }
-                    if (this.pass.Password.Length >= 13)
+                    if (this.pass.Password.Length >= 8)
                     {
-                        newUser = new User(this.first.Text, this.last.Text);                    
+                        newUser = new User(this.first.Text, this.last.Text);                
                         newInput = new Mapper<string, User>(this.pass.Password, newUser);
                        // UserData.input.Add(newInput);
                         UserData.usernames.Add(this.user.Text);
@@ -75,7 +78,7 @@ namespace Dispatch.View
                     }
                     else
                     {
-                        MessageDialog dg = new MessageDialog("Password must be 13 characters");
+                        MessageDialog dg = new MessageDialog("Password must be 8 characters");
                         await dg.ShowAsync();
                     }
                 }

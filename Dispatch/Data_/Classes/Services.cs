@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Models.Card;
 using Models.Classes;
 using Models.Sections;
+using System.Collections.ObjectModel;
 
 namespace Data_.Classes
 {
@@ -20,13 +21,15 @@ namespace Data_.Classes
         }
 
 
-        public void setTripCardDataArr(List<TripCard> newTripCard)
+        public void setTripCardDataArr(ObservableCollection<TripCard> newTripCard)
         {
             this.model.setTripCardList(newTripCard);
         }
+        /*
         public void setTripCardDataDic(Dictionary<TripCard, Asset> newTripCard)
         {
             this.model.setTripCardListAss(newTripCard);
         }
+         * */
     }
 }

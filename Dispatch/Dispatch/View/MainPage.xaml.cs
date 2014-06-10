@@ -13,6 +13,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Models.CardAttributes;
+using Models.Classes;
+using Models.UserStuff;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -31,12 +33,36 @@ namespace Dispatch.View
 
         public void LoadInformation()
         {
-            MyAction act = new MyAction();
-            Dictionary<MyAction.action, bool> dict = act.getEnumDict();
+            this.name.Text = UserData.currentUser.getName();
+        }
 
-            this.one.Text = Convert.ToString(dict[MyAction.action.arrive]);
-            act.setActionStatus(MyAction.action.arrive, true);
-            this.two.Text = Convert.ToString(dict[MyAction.action.arrive]);
+        private void GoBackPage(object sender, RoutedEventArgs e)
+        {
+            if (this.Frame != null && this.Frame.CanGoBack) this.Frame.GoBack();
+        }
+
+        private void logout(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Login));
+        }
+
+        private void goToMap(object sender, TappedRoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Map));
+        }
+
+        private void goToActivityCardPage(object sender, TappedRoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(ActivityCardsPage));
+        }
+        private void goToAssetsPage(object sender, TappedRoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Assets));
+        }
+
+        private void goToWorkersPage(object sender, TappedRoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Workers));
         }
 
     }

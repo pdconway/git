@@ -10,16 +10,42 @@ namespace Models.CardAttributes
 {
     public class Activity
     {
-        private int TripCard_ID; 
+        private static int newID = 0;
+        private int TripCard_ID;
         private Asset Activity_Asset;
         private Worker Activity_Line_Worker;
-        private Demand Activity_Line = new Demand();
+        //still trying to understand this whole demand thing
+        //mean path?
+        private Demand Activity_Line;
 
-        //constructor... HAS TO HAVE AN ID!
-        public Activity(int id)
+
+        public Activity(Asset addAsset, Worker addWorker)
         {
-            this.TripCard_ID = id;
+            this.TripCard_ID = newID;
+            this.Activity_Asset = addAsset;
+            this.Activity_Line_Worker = addWorker;
+            newID++;
         }
+
+        
+        public Activity(Asset addAsset, Worker addWorker, Demand addDemand)
+        {
+            this.TripCard_ID = newID;
+            this.Activity_Asset = addAsset;
+            this.Activity_Line_Worker = addWorker;
+            this.Activity_Line = addDemand;
+            newID++;
+        }
+
+        public Asset getAsset()
+        {
+            return this.Activity_Asset;
+        }
+        public Worker getWorker()
+        {
+            return this.Activity_Line_Worker;
+        }
+
 
     }
 }

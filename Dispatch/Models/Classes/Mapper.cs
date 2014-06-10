@@ -11,32 +11,14 @@ namespace Models.Classes
         where T : class
     {
 
-        private O key;
-        private T value;
+        public O key { get; set; }
+        public T value { get; set; }
 
         public Mapper(O k, T v)
         {
             this.key = k;
             this.value = v;
         }
-
-        public O getKey()
-        {
-            return this.key;
-        }
-        public T getValue()
-        {
-            return this.value;
-        }
-        public void setKey(O k)
-        {
-            this.key = k;
-        }
-        public void setValue(T v)
-        {
-            this.value = v;
-        }
-
         
     }
 }
