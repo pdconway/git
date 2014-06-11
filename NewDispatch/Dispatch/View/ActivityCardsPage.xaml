@@ -1,0 +1,353 @@
+﻿<Page
+    x:Class="Dispatch.View.ActivityCardsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Dispatch.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Transfer="using:Dispatch.Transfer"
+    mc:Ignorable="d">
+
+
+    <Page.Resources>
+        <DataTemplate x:Key="DataTemplate1">
+            <Grid Height="230" Width="230" RightTapped="pullUpCardInformationPopup" DoubleTapped="pullUpCardInformationPopup" Background="White">
+                <!--each image and text block is binded to the picture and image from the individual friend-->
+                <Border BorderBrush="#FFE67E00" BorderThickness="10" Margin="0" Padding="0"/>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Width="230" Background="#FFE67E00" Orientation="Horizontal" Margin="0,10,0,0" Height="45">
+                    <TextBlock TextWrapping="Wrap" Text="Card ID #" FontSize="17.333" Margin="10,0,0,0" RequestedTheme="Dark" VerticalAlignment="Center" Foreground="White"/>
+                    <TextBox x:Name="cardID" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" RequestedTheme="Dark" Margin="8,0,0,0" Foreground="Teal" SelectionHighlightColor="#FF0722CB" FontSize="17.333" Text="{Binding IDString}" Width="130" FontWeight="Bold" TextAlignment="Right"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DataTemplate2">
+            <Grid Height="100" Width="300" Background="#FFE67E00">
+                <!--each image and text block is binded to the picture and image from the individual friend-->
+                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" Background="#FFE67E00">
+                    <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" RequestedTheme="Dark" Margin="0" Foreground="White" SelectionHighlightColor="#FF0722CB" FontSize="20" Text="{Binding Name}"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
+
+        <DataTemplate x:Key="ChooseListTemplate">
+            <Grid Background="Teal" Width="300" Height="50" HorizontalAlignment="Center" Margin="15,0,0,0">
+                <!--okay so remember... we reference the list of mappers... so now the list of trip cards is now equal to the value in the mapper-->
+                <TextBlock x:Name="listChoice" Text="{Binding key}" Foreground="#FFE67E00" FontSize="30" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,30,0" />
+            </Grid>
+        </DataTemplate>
+        
+
+        <DataTemplate x:Key="ListViewDataTemplate">
+            <Grid Background="Teal" Width="1300" Height="300">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="27"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+            	<TextBlock x:Name="tripCardListName" Grid.Row="0" Text="{Binding key}" Foreground="White" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="18,0,0,0" Width="300" Grid.RowSpan="1" />
+            	<GridView x:Name="tripCardListBox" Grid.Row="1" ItemTemplate="{StaticResource DataTemplate1}" SelectionMode="Multiple" Foreground="#FFE67E00" Background="Teal" BorderBrush="Black" BorderThickness="10,0,10,10" ItemsSource="{Binding value}" Margin="0" FlowDirection="LeftToRight" Padding="3,0,3,8" RequestedTheme="Dark"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="toolBarListView">
+            <Grid Height="50" Width="240" Background="#FFE67E00">
+                <!--each image and text block is binded to the picture and image from the individual friend-->
+                <TextBlock x:Name="toolBarThingName" TextWrapping="Wrap" RequestedTheme="Dark" Margin="0" Foreground="White" SelectionHighlightColor="#FF0722CB" FontSize="14.667" Text="{Binding Name}" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            </Grid>
+        </DataTemplate>
+
+        
+
+
+    </Page.Resources>
+    
+    
+    
+    
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton HorizontalAlignment="Stretch" Icon="Add" Label="New Card" VerticalAlignment="Stretch" Click="openPopUp"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+
+    <Grid Background="Teal">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="95"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.DataContext>
+            <!--allows for "TripCardList" to be referenced later in page-->
+            <Transfer:DataTransfer/>
+        </Grid.DataContext>
+
+        
+
+
+        <Grid x:Name="header" Grid.Row="0">
+            <AppBarButton HorizontalAlignment="Left" Icon="Back" Label="Back" Margin="0,6,0,0" VerticalAlignment="Top" Click="GoBackPage" />
+            <AppBarButton HorizontalAlignment="Right" Icon="ClearSelection" Label="Logout" Margin="0,6,0,0" VerticalAlignment="Top" Click="logout" />
+            <AppBarButton HorizontalAlignment="Right" Icon="Home" Label="Home" Margin="0,6,60,0" VerticalAlignment="Top" Click="goHome" FontFamily="Segoe UI"/>
+            <StackPanel HorizontalAlignment="Center" Margin="593,0,559,0" VerticalAlignment="Top" Height="95" Orientation="Horizontal">
+                <TextBlock x:Name="name" HorizontalAlignment="Left" Margin="0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Center" FontSize="30"/>
+                <StackPanel Width="100">
+                    <Image HorizontalAlignment="Center" Margin="0,14,0,0" VerticalAlignment="Top" Source="ms-appx:///Assets/semiLogo.jpg" Height="52" Width="52"/>
+                    <TextBlock HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" Text="Cards" VerticalAlignment="Top" FontFamily="Segoe UI"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        
+        <Grid x:Name="main" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="255"/>
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="containsListView" Grid.Column="0" Margin="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <ListView x:Name="tripCardListView" Grid.Row="0" ItemTemplate="{StaticResource ListViewDataTemplate}" Foreground="Teal" Background="Teal" BorderThickness="10" ItemsSource="{Binding ListOfGridViewsContainingCards}" SelectionMode="None"/>
+                <TextBox x:Name="newListName" Grid.Row="1" PlaceholderText="Add New List" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,5" Width="200"/>
+                <Button x:Name="okay" Grid.Row="1" Margin="240,0,0,5" Height="36" Width="70" FontSize="12" Content="Add" Click="addNewList"/>
+                <!--<Button x:Name="viewCard" Grid.Row="1" Margin="255,0,0,5" Height="36" FontSize="12" Content="View Card Details" Click="pullUpCardInformationPopup" Background="#FFE67E00" HorizontalAlignment="Center" Width="200"/> -->
+            </Grid>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,10,0,0">
+                <AppBarButton HorizontalAlignment="Center" Icon="Priority" Label="Priority Cards" VerticalAlignment="Top" Margin="0"/>
+                <AppBarButton HorizontalAlignment="Center" Icon="Add" Label="New Card" VerticalAlignment="Top" Click="openPopUp" Margin="0"/>              
+            </StackPanel>
+            <StackPanel Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0" Orientation="Horizontal">
+                <TextBlock x:Name="assetTextBlock"  Text="Assets" FontSize="17" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0" Tapped="switchToAssets" Foreground="DarkOrange"/>
+                <TextBlock x:Name="workerTextBlock" Text="Workers" FontSize="17" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="20,0,0,0" Tapped="switchToWorkers"/>
+                <TextBlock x:Name="demandTextBlock" Text="Demands" FontSize="17" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="20,0,0,0" Tapped="switchToDemands"/>
+            </StackPanel>
+            <ListView x:Name="toolBar" Grid.Column="1" ItemTemplate="{StaticResource toolBarListView}" Background="Teal" ItemsSource="{Binding AssetList}" SelectionMode="Single" Margin="0,35,0,88" BorderThickness="0" BorderBrush="Teal"/>
+            
+        </Grid>
+
+       
+<!--
+        <Popup x:Name="newCard" HorizontalAlignment="Center" VerticalAlignment="Center" Width="500" Height="700" Grid.RowSpan="2">
+            <Grid Background="White" RequestedTheme="Dark" Width="500" Height="700">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="95"/>
+                </Grid.RowDefinitions>
+                
+                <Grid Grid.Row="1" Background="Teal">
+                    <StackPanel Margin="5,0,5,10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <AppBarButton Icon="Accept" Click="tryMakeNewCard"/>
+                        <Image x:Name="assets" Source="ms-appx:///Assets/assets.jpg" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,-3,0" Tapped="openAssetsPopUp"/>
+                        <Image x:Name="worker" Source="ms-appx:///Assets/worker.jpg" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,-3,0" Tapped="openWorkerPopUp"/>
+                        <AppBarButton Icon="Cancel" Click="close"/>
+                    </StackPanel>
+                </Grid>
+                <Border BorderBrush="#FFE67E00" BorderThickness="10" Margin="0" Grid.RowSpan="2"/>
+            </Grid>
+        </Popup>
+        
+        
+        -->
+        
+        
+        
+        <!--POPUPS OH HEY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+        
+        
+        
+        
+
+
+        <Popup x:Name="chooseListPopup" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Height="400" Grid.RowSpan="2">
+            <Grid Background="White" RequestedTheme="Dark" Width="300" Height="400">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="80"/>
+                </Grid.RowDefinitions>
+
+                <ListView Grid.Row="0" x:Name="chooseListListview" ItemTemplate="{StaticResource ChooseListTemplate}" SelectionMode="Single" Foreground="Teal" Background="White" BorderThickness="0" ItemsSource="{Binding ListOfGridViewsContainingCards}" BorderBrush="White" Margin="0,10,0,0" />
+
+                <StackPanel HorizontalAlignment="Right" Grid.Row="1" VerticalAlignment="Center" Margin="0" Orientation="Horizontal" Background="Teal" Width="300" FlowDirection="RightToLeft">
+                    <AppBarButton Icon="Cancel" Click="closeChoiceListPopup" HorizontalAlignment="Right"/>
+                    <AppBarButton Icon="Accept" Click="selectList" Margin="0" HorizontalAlignment="Right"/> 
+                </StackPanel>
+                <Border BorderBrush="Black" BorderThickness="10" Margin="0" Grid.RowSpan="2"/>
+            </Grid>
+        </Popup>
+
+
+
+
+
+
+        <Popup x:Name="newCard" HorizontalAlignment="Center" VerticalAlignment="Center" Width="500" Height="700" Grid.RowSpan="2">
+            <Grid Background="White" RequestedTheme="Dark" Width="500" Height="700">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="95"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Activity" FontSize="25" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,20,0,0" Foreground="#FFE67E00" />
+                <TextBox Grid.Row="0" x:Name="assetID" PlaceholderText="Asset ID" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,50,0,0" Width="100" Background="Teal" Foreground="White"/>
+                <TextBox Grid.Row="0" x:Name="workerID" PlaceholderText="Worker ID" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,90,0,0" Width="100" Background="Teal" Foreground="White"/>
+                <TextBlock Grid.Row="0" Text="Asset ID" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,60,0,0" Foreground="#FFE67E00"/>
+                <TextBlock Grid.Row="0" Text="Worker ID" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,90,0,0" Foreground="#FFE67E00"/>
+                <TextBlock Grid.Row="0" Text="Action" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,0,0,0" Foreground="#FFE67E00" />
+                <TextBox Grid.Row="0" x:Name="status" PlaceholderText="Status" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="100,45,0,0" Width="100" Background="Teal" Foreground="White"/>
+                <TextBlock Grid.Row="0" Text="Status" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,40,0,0" Foreground="#FFE67E00"/>
+
+
+                <Grid Grid.Row="1" Background="Teal">
+                    <StackPanel Margin="5,0,5,10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <AppBarButton Icon="Accept" Click="tryMakeNewCard"/>
+                        <Image x:Name="assets" Source="ms-appx:///Assets/assets.jpg" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,-3,0" Tapped="openAssetsPopUp"/>
+                        <Image x:Name="worker" Source="ms-appx:///Assets/worker.jpg" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,-3,0" Tapped="openWorkerPopUp"/>
+                        <AppBarButton Icon="Cancel" Click="close"/>
+                    </StackPanel>
+                </Grid>
+                <Border BorderBrush="Black" BorderThickness="10" Margin="0" Grid.RowSpan="2"/>
+            </Grid>
+        </Popup>
+
+
+        <Popup x:Name="cardInformationPopup" HorizontalAlignment="Center" VerticalAlignment="Center" Width="500" Height="700" Grid.RowSpan="2">
+            <Grid Background="White" RequestedTheme="Dark" Width="500" Height="700">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="95"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Activity" FontSize="25" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,20,0,0" Foreground="#FFE67E00" />
+                <TextBox Grid.Row="0" x:Name="cardAssetID" PlaceholderText="Asset ID" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,50,0,0" Width="100" Background="Teal" Foreground="White"/>
+                <TextBox Grid.Row="0" x:Name="cardWorkerID" PlaceholderText="Worker ID" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,90,0,0" Width="100" Background="Teal" Foreground="White"/>
+                <TextBlock Grid.Row="0" Text="Asset ID" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,60,0,0" Foreground="#FFE67E00"/>
+                <TextBlock Grid.Row="0" Text="Worker ID" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,90,0,0" Foreground="#FFE67E00"/>
+                <TextBlock Grid.Row="0" Text="Action" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,0,0,0" Foreground="#FFE67E00" />
+                <TextBox Grid.Row="0" x:Name="cardStatus" PlaceholderText="Status" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="100,45,0,0" Width="100" Background="Teal" Foreground="White"/>
+                <TextBlock Grid.Row="0" Text="Status" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,40,0,0" Foreground="#FFE67E00"/>
+
+
+                <Grid Grid.Row="1" Background="Teal">
+                    <StackPanel Margin="5,0,5,10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <AppBarButton Icon="Accept" Click="tryChangeCard"/>
+                        <Image x:Name="cardAssets" Source="ms-appx:///Assets/assets.jpg" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,-3,0" Tapped="openCardAssetsPopUp"/>
+                        <Image x:Name="cardWorker" Source="ms-appx:///Assets/worker.jpg" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,-3,0" Tapped="openCardWorkerPopUp"/>
+                        <AppBarButton Icon="Cancel" Click="closeCardView"/>
+                    </StackPanel>
+                </Grid>
+                <Border BorderBrush="Black" BorderThickness="10" Margin="0" Grid.RowSpan="2"/>
+            </Grid>
+        </Popup>
+
+
+
+
+
+
+
+        <Popup x:Name="assetPopup" HorizontalAlignment="Center" VerticalAlignment="Center" Width="1000" Height="700" Grid.RowSpan="2">
+            <Grid Background="White" RequestedTheme="Dark" Width="1000" Height="700">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="95"/>
+                </Grid.RowDefinitions>
+
+                <GridView x:Name="assetListBox" Grid.Row="0" ItemTemplate="{StaticResource DataTemplate2}" SelectionMode="Single" Foreground="Teal" Background="White" BorderBrush="Teal" BorderThickness="10" ItemsSource="{Binding AssetList}"/>
+
+                <Grid Grid.Row="1" Background="Teal">
+                    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,20,0,0" Orientation="Horizontal">
+                        <AppBarButton Icon="Accept" Click="selectAsset" Margin="0"/>
+                        <AppBarButton Icon="Cancel" Click="closeAssetPopup"/>
+                    </StackPanel>
+                </Grid>
+                <Border BorderBrush="Black" BorderThickness="10" Margin="0" Grid.RowSpan="2"/>
+            </Grid>
+        </Popup>
+
+
+        <Popup x:Name="workerPopup" HorizontalAlignment="Center" VerticalAlignment="Center" Width="1000" Height="700" Grid.RowSpan="2">
+            <Grid Background="White" RequestedTheme="Dark" Width="1000" Height="700">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="95"/>
+                </Grid.RowDefinitions>
+
+                <GridView x:Name="workerListBox" Grid.Row="0" ItemTemplate="{StaticResource DataTemplate2}" SelectionMode="Single" Foreground="Teal" Background="White" BorderBrush="Teal" BorderThickness="10" ItemsSource="{Binding WorkerList}"/>
+                
+                <Grid Grid.Row="1" Background="Teal">
+                    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,20,0,0" Orientation="Horizontal">
+                        <AppBarButton Icon="Accept" Click="selectWorker"/>
+                        <AppBarButton Icon="Cancel" Click="closeWorkerPopup"/>
+                    </StackPanel>
+                </Grid>
+                <Border BorderBrush="Black" BorderThickness="10" Margin="0" Grid.RowSpan="2"/>
+            </Grid>
+        </Popup>
+
+
+
+
+
+
+
+        <Popup x:Name="cardAssetPopup" HorizontalAlignment="Center" VerticalAlignment="Center" Width="1000" Height="700" Grid.RowSpan="2">
+            <Grid Background="White" RequestedTheme="Dark" Width="1000" Height="700">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="95"/>
+                </Grid.RowDefinitions>
+
+                <GridView x:Name="cardAssetListBox" Grid.Row="0" ItemTemplate="{StaticResource DataTemplate2}" SelectionMode="Single" Foreground="Teal" Background="White" BorderBrush="Teal" BorderThickness="10" ItemsSource="{Binding AssetList}"/>
+
+                <Grid Grid.Row="1" Background="Teal">
+                    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,20,0,0" Orientation="Horizontal">
+                        <AppBarButton Icon="Accept" Click="cardSelectAsset" Margin="0"/>
+                        <AppBarButton Icon="Cancel" Click="cardCloseAssetPopup"/>
+                    </StackPanel>
+                </Grid>
+                <Border BorderBrush="Black" BorderThickness="10" Margin="0" Grid.RowSpan="2"/>
+            </Grid>
+        </Popup>
+
+
+        <Popup x:Name="cardWorkerPopup" HorizontalAlignment="Center" VerticalAlignment="Center" Width="1000" Height="700" Grid.RowSpan="2">
+            <Grid Background="White" RequestedTheme="Dark" Width="1000" Height="700">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="95"/>
+                </Grid.RowDefinitions>
+
+                <GridView x:Name="cardWorkerListBox" Grid.Row="0" ItemTemplate="{StaticResource DataTemplate2}" SelectionMode="Single" Foreground="Teal" Background="White" BorderBrush="Teal" BorderThickness="10" ItemsSource="{Binding WorkerList}"/>
+
+                <Grid Grid.Row="1" Background="Teal">
+                    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,20,0,0" Orientation="Horizontal">
+                        <AppBarButton Icon="Accept" Click="cardSelectWorker"/>
+                        <AppBarButton Icon="Cancel" Click="cardCloseWorkerPopup"/>
+                    </StackPanel>
+                </Grid>
+                <Border BorderBrush="Black" BorderThickness="10" Margin="0" Grid.RowSpan="2"/>
+            </Grid>
+        </Popup>
+
+
+
+
+
+
+
+    </Grid>
+</Page>
+    
+    <!--
+    
+    <TextBlock Grid.Row="0" Text="Activity" FontSize="25" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,20,0,0" />
+                <TextBox Grid.Row="0" x:Name="assetID" PlaceholderText="Asset ID" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,50,0,0"/>
+                <TextBox Grid.Row="0" x:Name="workerID" PlaceholderText="Worker ID" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,70,0,0"/>
+                <TextBlock Grid.Row="0" Text="Asset ID" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,50,0,0"/>
+                <TextBlock Grid.Row="0" Text="Worker ID" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,70,0,0"/>
+                <TextBlock Grid.Row="0" Text="Action" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,0,0,0" />
+                <TextBox Grid.Row="0" x:Name="status" PlaceholderText="Status" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="100,30,0,0"/>
+                <TextBlock Grid.Row="0" Text="Status" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,30,0,0"/>
+    
+    -->
