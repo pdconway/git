@@ -31,15 +31,22 @@ namespace Dispatch.View
     /// </summary>
     public sealed partial class ActivityCardsPage : Page
     {
+        //////////////////////////////////////////////////NEEDED IF WANT NESTED GRIDVIEW/////////////////////////////////////////////////////////
+        /*
+        private static Mapper<string, ObservableCollection<TripCard>> newMapper;
+        private static string holdSelectedList;
+        private CardAction action;
+        private Demand demand;
+         */
+        //////////////////////////////////////////////////NEEDED IF WANT NESTED GRIDVIEW/////////////////////////////////////////////////////////
+
+        //MAKE NEW TRIP CARDS BELONG TO THIS CLASS NOT TO INSTANCES OF THIS CLASS
+        private static TripCard newTripCard;
         private Asset selectedAsset;
         private Worker selectedWorker;
         private Activity activity;
-        //private CardAction action;
-        //private Demand demand;
-        //MAKE NEW TRIP CARDS BELONG TO THIS CLASS NOT TO INSTANCES OF THIS CLASS
-        private static TripCard newTripCard;
-        private static Mapper<string, ObservableCollection<TripCard>> newMapper;
-        private static string holdSelectedList;
+        
+        
  
         public ActivityCardsPage()
         {
@@ -47,9 +54,11 @@ namespace Dispatch.View
             this.LoadInformation();
             //this prevents the data from being instantiated every single time you load the page
             if (DataTransfer.isFirstTimeEntered == 0)
-                DataTransfer.useSampleDataWithNewDataStructure();
-                //DataTransfer.useMoreSampleData();
-            
+                DataTransfer.useMoreSampleData();
+                //////////////////////////////////////////////////NEEDED IF WANT NESTED GRIDVIEW/////////////////////////////////////////////////////////
+                //DataTransfer.useSampleDataWithNewDataStructure();
+                //////////////////////////////////////////////////NEEDED IF WANT NESTED GRIDVIEW/////////////////////////////////////////////////////////
+                
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -58,13 +67,44 @@ namespace Dispatch.View
             DataTransfer.isFirstTimeEntered++;
             //DataTransfer.clearData();
         }
-
-
         public void LoadInformation()
         {
             this.name.Text = UserData.currentUser.getName();
             if (DataTransfer.existsNewData)
             {
+                DataTransfer.TripCardList.Add(newTripCard);
+                DataTransfer.existsNewData = false;
+
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //////////////////////////////////////////////////NEEDED IF WANT NESTED GRIDVIEW/////////////////////////////////////////////////////////
+        /*
+        public void LoadInformation()
+        {
+            this.name.Text = UserData.currentUser.getName();
+            if (DataTransfer.existsNewData)
+            {     
                 foreach (Mapper<string, ObservableCollection<TripCard>> item in DataTransfer.ListOfGridViewsContainingCards)
                 {
                     if (holdSelectedList == item.key)
@@ -73,31 +113,39 @@ namespace Dispatch.View
                         //remember item is a mapper and that value is actually a list of tripcards. 
                     }
                 }
+
                 DataTransfer.TripCardList.Add(newTripCard);
                 DataTransfer.existsNewData = false;
+                 
             }
-
             if (DataTransfer.existsNewListData)
             {
                 DataTransfer.ListOfGridViewsContainingCards.Add(newMapper);
                 DataTransfer.existsNewListData = false;
-            }
-           // this.uh.Text = Convert.ToString(isFirstTimeHere);
-           
-            ////********************************************************************************************************************
-            //////////////////////////////////////WHERE I STOPPED ON FRIDAY 6/6/2014////////////////////////////////////////////////
-            //**********************************************************************************************************************
-            /*
-            if(DataTransfer.isFirstTimeEntered != 0)
-            {
-                Binding myBinding = new Binding();
-                myBinding.Source = DataTransfer.TripCardList;
-                this.tripCardListBox.SetBinding(this.tripCardListBox.ItemsSource, myBinding);
-            }
-             * */
-            
+            }        
         }
+        */
+        /////////////////////////////////////////////////NEEDED IF WANT NESTED GRIDVIEW//////////////////////////////////////////////////////////
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ////////////////////////////////////////////////////////PAGE NAVIGATION///////////////////////////////////////////////////////
         private void logout(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Login));
@@ -112,16 +160,19 @@ namespace Dispatch.View
         {
             if (this.Frame != null && this.Frame.CanGoBack) this.Frame.GoBack();
         }
+        ////////////////////////////////////////////////////////PAGE NAVIGATION///////////////////////////////////////////////////////
 
 
-
-
-        private void openPopUp(object sender, RoutedEventArgs e)
+        ///////////////////////////////////////////////////////NEW CARD POPUP//////////////////////////////////////////////////////
+        private void openNewCard(object sender, RoutedEventArgs e)
         {
-            this.chooseListPopup.IsOpen = true;
+            this.newCard.IsOpen = true;
         }
-
-
+        //cancels new card
+        private void closeNewCard(object sender, RoutedEventArgs e)
+        {
+            this.newCard.IsOpen = false;
+        }
         //this is where we take the information from the card and try to instantiate a new TripCard
         async private void tryMakeNewCard(object sender, RoutedEventArgs e)
         {
@@ -136,30 +187,21 @@ namespace Dispatch.View
             {
                 MessageDialog bad = new MessageDialog("Incomplete Form");
                 await bad.ShowAsync();
-            }  
+            }
         }
+        ///////////////////////////////////////////////////////NEW CARD POPUP//////////////////////////////////////////////////////
 
-        //HELLO MY NAME IS PAULLLLLLLLLLL CONNNNNNNNNWAYYYYYYYYYYYYYYY
+
+        ////////////////////////////////////////////////////ASSET POPUP////////////////////////////////////////////////////
         //so this is where "we" will open up a new pop up that contains the available assets that we brought in (data)
         private void openAssetsPopUp(object sender, TappedRoutedEventArgs e)
         {
             this.assetPopup.IsOpen = true;
         }
-
-
-        //this is where will open pop up that contains availabe workers
-        private void openWorkerPopUp(object sender, TappedRoutedEventArgs e)
+        private void closeAssetPopup(object sender, RoutedEventArgs e)
         {
-            this.workerPopup.IsOpen = true;
+            this.assetPopup.IsOpen = false;
         }
-
-        //cancels new card
-        private void close(object sender, RoutedEventArgs e)
-        {
-            this.newCard.IsOpen = false;
-        }
-
-
         //this selects the assets and send the information to the NewCard popup
         private void selectAsset(object sender, RoutedEventArgs e)
         {
@@ -169,14 +211,21 @@ namespace Dispatch.View
                 this.assetID.Text = Convert.ToString(this.selectedAsset.getID());
                 this.assetPopup.IsOpen = false;
             }
-            
-        }
 
-        private void closeAssetPopup(object sender, RoutedEventArgs e)
+        }
+        //////////////////////////////////////////////////ASSET POPUP////////////////////////////////////////////////////////
+
+
+        /////////////////////////////////////////////////WORKER POPUP/////////////////////////////////////////////////////////
+        //this is where will open pop up that contains availabe workers
+        private void openWorkerPopUp(object sender, TappedRoutedEventArgs e)
         {
-            this.assetPopup.IsOpen = false;
+            this.workerPopup.IsOpen = true;
         }
-
+        private void closeWorkerPopup(object sender, RoutedEventArgs e)
+        {
+            this.workerPopup.IsOpen = false;
+        }
         //this selects the assets and sends the info to the NewCard popup
         private void selectWorker(object sender, RoutedEventArgs e)
         {
@@ -186,14 +235,74 @@ namespace Dispatch.View
                 this.workerID.Text = Convert.ToString(this.selectedWorker.getID());
                 this.workerPopup.IsOpen = false;
             }
-            
-        }
 
-        private void closeWorkerPopup(object sender, RoutedEventArgs e)
-        {
-            this.workerPopup.IsOpen = false;
         }
+        ////////////////////////////////////////////////WORKER POPUP//////////////////////////////////////////////////////////
+ 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ///////////////////////////////////////fOLLOWING NEEDED IF WANT NESTED GRIDVIEW////////////////////////////////////////////////
+
+
+        //ERRORS ARE INCLUDED...
+        //HAD TROUBLE GRABBING OJBECT IN NESTED GRIDVIEW
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
         private void addNewList(object sender, RoutedEventArgs e)
         {
             ObservableCollection<TripCard> newList = new ObservableCollection<TripCard>();
@@ -201,7 +310,10 @@ namespace Dispatch.View
             DataTransfer.existsNewListData = true;
             Frame.Navigate(typeof(ActivityCardsPage));
         }
+         * */
 
+
+        /*
         async private void selectList(object sender, RoutedEventArgs e)
         {
             if (this.chooseListListview.SelectedItem != null)
@@ -217,12 +329,18 @@ namespace Dispatch.View
                 await wrong.ShowAsync();
             }   
         }
+         
+
+        private void openPopUp(object sender, RoutedEventArgs e)
+        {
+            this.chooseListPopup.IsOpen = true;
+        }
 
         private void closeChoiceListPopup(object sender, RoutedEventArgs e)
         {
             this.chooseListPopup.IsOpen = false;
         }
-
+         * 
 
         private void tryChangeCard(object sender, RoutedEventArgs e)
         {
@@ -274,6 +392,21 @@ namespace Dispatch.View
         {
             this.cardWorkerPopup.IsOpen = false;
         }
+        */
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
+
 
         async private void pullUpCardInformationPopup(object sender, DoubleTappedRoutedEventArgs e)
         {
@@ -295,7 +428,7 @@ namespace Dispatch.View
 
             //Grid myGrid = (Grid)sender;
             //TripCard myTripCard = (TripCard)myGrid.Parent;
-            
+            */
             /*
             ListViewItem myListViewItem = (ListViewItem)this.tripCardListView.SelectedItem;
             //ContentPresenter myContentPresenter = FindVisualChild(myListViewItem);
@@ -316,29 +449,29 @@ namespace Dispatch.View
              
             */
 
-            /*
-            Grid myGrid = (Grid)sender;
-            TextBox myTextbox = (TextBox) myGrid.FindName("CardID");
-            if (myTextbox != null)
+        /*
+        Grid myGrid = (Grid)sender;
+        TextBox myTextbox = (TextBox) myGrid.FindName("CardID");
+        if (myTextbox != null)
+        {
+            foreach (TripCard card in DataTransfer.TripCardList)
             {
-                foreach (TripCard card in DataTransfer.TripCardList)
+                if (myTextbox.Text == card.IDString)
                 {
-                    if (myTextbox.Text == card.IDString)
-                    {
-                        this.cardAssetID.Text = Convert.ToString(card.getActivity().getAsset().getID());
-                        this.cardWorkerID.Text = Convert.ToString(card.getActivity().getWorker().getID());
-                        this.cardInformationPopup.IsOpen = true;
-                    }
+                    this.cardAssetID.Text = Convert.ToString(card.getActivity().getAsset().getID());
+                    this.cardWorkerID.Text = Convert.ToString(card.getActivity().getWorker().getID());
+                    this.cardInformationPopup.IsOpen = true;
                 }
             }
-            else
-            {
-                MessageDialog bad = new MessageDialog("Information Cannot Be Pulled Up");
-                await bad.ShowAsync();
-            }
-             */
         }
-
+        else
+        {
+            MessageDialog bad = new MessageDialog("Information Cannot Be Pulled Up");
+            await bad.ShowAsync();
+        }
+             
+    }
+    */
 
         /*
         private childItem FindChild<childItem>(DependencyObject obj) 
@@ -351,7 +484,7 @@ namespace Dispatch.View
             }
         }
         */
-
+        /*
 
         private childItem FindVisualChild<childItem>(DependencyObject obj)
             where childItem : DependencyObject
@@ -372,7 +505,7 @@ namespace Dispatch.View
         }
 
 
-
+        */
         /*
         async private void pullUpCardInformationPopup(object sender, DoubleTappedRoutedEventArgs e)
         {
@@ -433,9 +566,3 @@ namespace Dispatch.View
 }
 
 
-/*
-
- * 
- * 
- * 
-*/
